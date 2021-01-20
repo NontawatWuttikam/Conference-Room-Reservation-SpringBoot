@@ -15,6 +15,6 @@ public class MainController {
 
         Authentication loggedInUser = SecurityContextHolder.getContext().getAuthentication();
         model.addAttribute("username", loggedInUser.getName());
-        return "login.html";
+        return "home";
     }
 }
