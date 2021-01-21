@@ -8,9 +8,10 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface ReservationRepository extends JpaRepository<Reservation,Long>  {
+public interface ReservationRepository extends JpaRepository<Reservation, Long> {
 
     @Query(value = "SELECT * FROM reservation WHERE roomID  =(select roomID from room where roomName = ?1)", nativeQuery = true)
     List<Reservation> findByName(String name);
 
+    List<Reservation> findByRoomID(Long roomID);
 }

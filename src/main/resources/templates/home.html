@@ -13,24 +13,24 @@
         <div class="ui internally celled grid">
             <div class="three wide column">
                 
-                <h2 class="ui header">Rom Klao Headquarter</h2>
+                <h3 class="ui header">Rom Klao Headquarter</h3>
                 <div class="ui secondary vertical pointing menu">
-                    <h th:each="HOroom : ${HORooms}">
-                        <a class="item" th:href="@{/{roomid}(roomid = ${HOroom.roomID})}"
+                    <h3 th:each="HOroom : ${HORooms}">
+                        <a class="item" th:href="@{/branch/{roomid}(roomid = ${HOroom.roomID})}"
                             th:text="${HOroom.roomName + ' (' + HOroom.roomNo + ')'}" > /br</a>
-                    </h>
+                    </h3>
                 </div>
 
-                <h2 class="ui header">Rojana Branch</h2>
+                <h3 class="ui header">Rojana Branch</h3>
                 <div class="ui secondary vertical pointing menu">
-                    <h th:each="RJroom : ${RJRooms}">
-                        <a class="item" th:href="@{/{roomid}(roomid = ${RJroom.roomID})}"
+                    <h3 th:each="RJroom : ${RJRooms}">
+                        <a class="item" th:href="@{/branch/{roomid}(roomid = ${RJroom.roomID})}"
                             th:text="${RJroom.roomName + ' (' + RJroom.roomNo + ')'}" > /br</a>
-                    </h>
+                    </h3>
                 </div>
             </div>
             <div class="nine wide column">
-                <nav th:include="calendar :: calendar"></nav>
+                <nav th:include="calendar :: calendar(${reserves})"></nav>
             </div>
         </div>
     </div>

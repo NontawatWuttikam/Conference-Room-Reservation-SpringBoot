@@ -24,6 +24,46 @@ public class Reservation {
     @Temporal(TemporalType.DATE)
     private Date startDateTime;
 
+    public long getReservationID() {
+        return this.reservationID;
+    }
+
+    public void setReservationID(long reservationID) {
+        this.reservationID = reservationID;
+    }
+
+    public long getRoomID() {
+        return this.roomID;
+    }
+
+    public void setRoomID(long roomID) {
+        this.roomID = roomID;
+    }
+
+    public long getReserverID() {
+        return this.reserverID;
+    }
+
+    public void setReserverID(long reserverID) {
+        this.reserverID = reserverID;
+    }
+
+    public Date getStartDateTime() {
+        return this.startDateTime;
+    }
+
+    public void setStartDateTime(Date startDateTime) {
+        this.startDateTime = startDateTime;
+    }
+
+    public Date getEndDateTime() {
+        return this.endDateTime;
+    }
+
+    public void setEndDateTime(Date endDateTime) {
+        this.endDateTime = endDateTime;
+    }
+
     @Column(name = "ENDDATETIME")
     @Temporal(TemporalType.DATE)
     private Date endDateTime;
