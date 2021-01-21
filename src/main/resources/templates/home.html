@@ -1,29 +1,43 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <link rel="stylesheet" type="text/css" href="semantic/dist/semantic.min.css">
-    <head>
-        <title>Welcome to Spring Security Thymeleaf tutorial</title>
-    </head>
-    <body>
-        <nav th:include="navbar :: navbar(${username})"></nav>
-        
-        <div class="ui segment">
-            <div class="ui two column very relaxed grid">
-              <div class="column">
-                <!-- <h th:each="branch : ${branches}"> -->
-              </div>
-              <div class="column">
+
+<head>
+    <title>Welcome to Spring Security Thymeleaf tutorial</title>
+</head>
+
+<body>
+    <nav th:include="navbar :: navbar(${username})"></nav>
+
+    <div >
+        <div class="ui internally celled grid">
+            <div class="three wide column">
+                
+                <h2 class="ui header">Rom Klao Headquarter</h2>
+                <div class="ui secondary vertical pointing menu">
+                    <h th:each="HOroom : ${HORooms}">
+                        <a class="item" th:href="@{/{roomid}(roomid = ${HOroom.roomID})}"
+                            th:text="${HOroom.roomName + ' (' + HOroom.roomNo + ')'}" > /br</a>
+                    </h>
+                </div>
+
+                <h2 class="ui header">Rojana Branch</h2>
+                <div class="ui secondary vertical pointing menu">
+                    <h th:each="RJroom : ${RJRooms}">
+                        <a class="item" th:href="@{/{roomid}(roomid = ${RJroom.roomID})}"
+                            th:text="${RJroom.roomName + ' (' + RJroom.roomNo + ')'}" > /br</a>
+                    </h>
+                </div>
+            </div>
+            <div class="nine wide column">
                 <nav th:include="calendar :: calendar"></nav>
-              </div>
             </div>
-            <div class="ui vertical divider">
-            </div>
-          </div>
-    </body>
+        </div>
+    </div>
+</body>
+
 </html>
 
-<script
-  src="https://code.jquery.com/jquery-3.1.1.min.js"
-  integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
-  crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"
+    integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
 <script src="semantic/dist/semantic.min.js"></script>

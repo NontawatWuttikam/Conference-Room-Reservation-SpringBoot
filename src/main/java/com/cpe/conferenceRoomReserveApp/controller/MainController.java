@@ -5,7 +5,9 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import com.cpe.conferenceRoomReserveApp.entity.Branch;
+import com.cpe.conferenceRoomReserveApp.entity.Room;
 import com.cpe.conferenceRoomReserveApp.service.BranchService;
+import com.cpe.conferenceRoomReserveApp.service.RoomService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -21,14 +23,20 @@ public class MainController {
     @Autowired
     BranchService branchService;
 
+    @Autowired
+    RoomService roomService;
+
     @RequestMapping("/login.html")
     public String login(Model model) {
 
         Authentication loggedInUser = SecurityContextHolder.getContext().getAuthentication();
         List<Branch> branches = branchService.getAllBranch();
+        List<Room> rooms = roomService.getAllRoom();
 
-        Map<Long, List<Branch>> branchMap = branches.stream().collect(Collectors.groupingBy(Branch::getBranchID));
+        Map<Long, List<Room>> roomMapByBranch = rooms.stream().collect(Collectors.groupingBy(Room::getBranchID));
 
+        model.addAttribute("HORooms", roomMapByBranch.get(0L));
+        model.addAttribute("RJRooms", roomMapByBranch.get(1L));
         model.addAttribute("username", loggedInUser.getName());
         model.addAttribute("branches", branches);
         return "home";
