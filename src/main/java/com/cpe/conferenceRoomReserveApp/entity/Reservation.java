@@ -17,12 +17,22 @@ public class Reservation {
     @Column(name = "ROOMID")
     private long roomID;
 
+    @Column(name = "TITLE")
+    private String title;
+
+    @Column(name = "DESCRIPTION")
+    private String description;
+
     @Column(name = "RESERVERID")
     private long reserverID;
 
     @Column(name = "STARTDATETIME")
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date startDateTime;
+
+    @Column(name = "ENDDATETIME")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date endDateTime;
 
     public long getReservationID() {
         return this.reservationID;
@@ -38,6 +48,22 @@ public class Reservation {
 
     public void setRoomID(long roomID) {
         this.roomID = roomID;
+    }
+
+    public String getTitle() {
+        return this.title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getDescription() {
+        return this.description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public long getReserverID() {
@@ -63,9 +89,5 @@ public class Reservation {
     public void setEndDateTime(Date endDateTime) {
         this.endDateTime = endDateTime;
     }
-
-    @Column(name = "ENDDATETIME")
-    @Temporal(TemporalType.DATE)
-    private Date endDateTime;
 
 }
