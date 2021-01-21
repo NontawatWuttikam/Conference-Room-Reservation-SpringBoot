@@ -17,4 +17,20 @@ public class Branch {
     @Column(name = "BRANCHNAME")
     private String branchName;
 
+    public long getBranchID() {
+        return this.branchID;
+    }
+
+    public void setBranchID(long branchID) {
+        this.branchID = branchID;
+    }
+
+    public String getBranchName() {
+        return this.branchName;
+    }
+
+    public void setBranchName(String branchName) {
+        this.branchName = branchName;
+    }
+
 }

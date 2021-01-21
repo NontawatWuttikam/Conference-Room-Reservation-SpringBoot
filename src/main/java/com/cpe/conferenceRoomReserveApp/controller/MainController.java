@@ -1,6 +1,8 @@
 package com.cpe.conferenceRoomReserveApp.controller;
 
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import com.cpe.conferenceRoomReserveApp.entity.Branch;
 import com.cpe.conferenceRoomReserveApp.service.BranchService;
@@ -24,6 +26,9 @@ public class MainController {
 
         Authentication loggedInUser = SecurityContextHolder.getContext().getAuthentication();
         List<Branch> branches = branchService.getAllBranch();
+
+        Map<Long, List<Branch>> branchMap = branches.stream().collect(Collectors.groupingBy(Branch::getBranchID));
+
         model.addAttribute("username", loggedInUser.getName());
         model.addAttribute("branches", branches);
         return "home";
