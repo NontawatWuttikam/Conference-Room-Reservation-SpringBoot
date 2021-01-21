@@ -5,26 +5,26 @@ import lombok.Data;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "room")
+@Table(name = "ROOM")
 @Data
 public class Room {
     @GeneratedValue
     @Id
-    @Column(name = "roomID")
+    @Column(name = "ROOMID")
     private long roomID;
 
-    @Column(name = "roomName")
+    @Column(name = "ROOMNAME")
     private String roomName;
 
-    @Column(name = "building")
+    @Column(name = "BUILDING")
     private String building;
 
-    @Column(name = "floor")
+    @Column(name = "FLOOR")
     private int floor;
 
-    @Column(name = "branchID")
+    @Column(name = "BRANCHID")
     private long branchID;
 
-    @Column(name = "roomNo")
+    @Column(name = "ROOMNO")
     private int roomNo;
 }

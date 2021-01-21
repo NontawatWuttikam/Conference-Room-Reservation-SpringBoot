@@ -5,16 +5,16 @@ import lombok.Data;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "branch")
+@Table(name = "BRANCH")
 @Data
 public class Branch {
 
     @Id
     @GeneratedValue
-    @Column(name = "branchID")
+    @Column(name = "BRANCHID")
     private long branchID;
 
-    @Column(name = "branchName")
+    @Column(name = "BRANCHNAME")
     private String branchName;
 
 }

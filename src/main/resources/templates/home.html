@@ -6,7 +6,19 @@
     </head>
     <body>
         <nav th:include="navbar :: navbar(${username})"></nav>
-        <nav th:include="calendar :: calendar"></nav>
+        
+        <div class="ui segment">
+            <div class="ui two column very relaxed grid">
+              <div class="column">
+                <!-- <h th:each="branch : ${branches}"> -->
+              </div>
+              <div class="column">
+                <nav th:include="calendar :: calendar"></nav>
+              </div>
+            </div>
+            <div class="ui vertical divider">
+            </div>
+          </div>
     </body>
 </html>
 

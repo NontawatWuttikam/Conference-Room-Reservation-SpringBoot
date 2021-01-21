@@ -6,25 +6,25 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-@Table(name = "reservation")
+@Table(name = "RESERVATION")
 @Data
 public class Reservation {
     @GeneratedValue
     @Id
-    @Column(name = "reservationID")
+    @Column(name = "RESERVATIONID")
     private long reservationID;
 
-    @Column(name = "roomID")
+    @Column(name = "ROOMID")
     private long roomID;
 
-    @Column(name = "reserverID")
+    @Column(name = "RESERVERID")
     private long reserverID;
 
-    @Column(name = "startDateTime")
+    @Column(name = "STARTDATETIME")
     @Temporal(TemporalType.DATE)
     private Date startDateTime;
 
-    @Column(name = "endDateTime")
+    @Column(name = "ENDDATETIME")
     @Temporal(TemporalType.DATE)
     private Date endDateTime;
 
