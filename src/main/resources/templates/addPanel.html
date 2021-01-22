@@ -140,15 +140,74 @@
         console.log(startDateTime)
         console.log(endDateTime)
 
-        var jqxhr = $.post("/test",{
-            title:title,
-            description:description,
-            branch:branch,
-            username:username,
-            startDateTime:startDateTime,
-            endDateTime:endDateTime
+        var timePeroids = []
+        var datas = /*[[${reserves}]]*/[];
+
+        var months = [
+            'January',
+            'February',
+            'March',
+            'April',
+            'May',
+            'June',
+            'July',
+            'August',
+            'September',
+            'October',
+            'November',
+            'December'
+        ];
+
+        function shiftTime(timestr,shiftstr) {
+            timestr_s = timestr.split(":")
+            if (shiftstr.toLowerCase() === "am") {
+                if (timestr_s[0] === "12") return "0" + ":" + timestr_s[1]
+                return timestr
+            }
+            else {
+                if (timestr_s[0] === "12") return timestr
+                else {
+                    return (parseInt(timestr_s[0]) + 12) + ":" + timestr_s[1]
+                }
+            }
+            return timestr
+        }
+        var TIME_INDEX = 3;
+        var YEAR_INDEX = 2;
+        var DAY_INDEX = 1;
+        var MONTH_INDEX = 0;
+        var SHIFT_INDEX = 4
+        for (var i = 0; i < datas.length; i++) {
+            console.log(datas[i])
+            startdate = new Date(datas[i].startDateTime)
+            enddate = new Date(datas[i].endDateTime)
+            // console.log(startdate.getFullYear().toString())
+            // console.log(startDateTime[YEAR_INDEX])
+            // console.log(startdate.getMonth())
+            // console.log(months.indexOf(startDateTime[MONTH_INDEX]))
+            // console.log(startdate.getDate().toString())
+            // console.log(startDateTime[DAY_INDEX].toString())
+            var isSameDate = startdate.getFullYear().toString() === startDateTime[YEAR_INDEX] & 
+            startdate.getMonth() == (months.indexOf(startDateTime[MONTH_INDEX])) & startdate.getDate().toString() === startDateTime[DAY_INDEX].toString()
+            if (isSameDate) {
+                startTimeStr = startdate.getHours().toString() + ':' + startdate.getMinutes().toString()
+                endTimeStr = enddate.getHours().toString() + ':' + enddate.getMinutes().toString()
+                timePeroids.push([startTimeStr, endTimeStr])
+            }
+
+        }
+
+        timePeroids.push([shiftTime(startDateTime[TIME_INDEX], startDateTime[SHIFT_INDEX]), shiftTime(endDateTime[TIME_INDEX],endDateTime[SHIFT_INDEX])])
+        console.log(timePeroids)
+        var jqxhr = $.post("/test", {
+            title: title,
+            description: description,
+            branch: branch,
+            username: username,
+            startDateTime: startDateTime,
+            endDateTime: endDateTime
         }, function (tests) {
-            
+
         })
             .done(function () {
                 alert("success");
@@ -156,16 +215,10 @@
             .fail(function () {
                 alert("error");
             })
-            .always(function () {
-                alert("finished");
-            });
 
         // Perform other work here ...
 
         // Set another completion function for the request above
-        jqxhr.always(function () {
-            alert("second finished");
-        });
     }
 
 
