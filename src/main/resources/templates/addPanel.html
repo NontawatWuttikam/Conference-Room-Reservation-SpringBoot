@@ -83,6 +83,9 @@
 <script type="text/javascript" src="/bower_components/semantic-ui-calendar/dist/calendar.min.js"></script>
 <link rel="stylesheet" href="/bower_components/semantic-ui-calendar/dist/calendar.min.css" />
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment-range/3.0.3/moment-range.min.js"></script>
+
 <script th:inline="javascript">
 
     var reserveBtn = $('#reserveBtn')[0]
@@ -158,7 +161,7 @@
             'December'
         ];
 
-        function shiftTime(timestr,shiftstr) {
+        function shiftTime(timestr, shiftstr) {
             timestr_s = timestr.split(":")
             if (shiftstr.toLowerCase() === "am") {
                 if (timestr_s[0] === "12") return "0" + ":" + timestr_s[1]
@@ -171,6 +174,29 @@
                 }
             }
             return timestr
+        }
+
+        window['moment-range'].extendMoment(moment);
+
+        function isOverlapTime(timeSegments) {
+
+            timeSegments.sort((a,b) => {
+                return parseInt(a[0].split(":")[0]) - parseInt(b[0].split(":")[0])
+            })
+            let ret = false;
+            let i = 0;
+            while (!ret && i < timeSegments.length - 1) {
+                let seg1 = timeSegments[i];
+                let seg2 = timeSegments[i + 1];
+                console.log(i,seg1,seg2)
+                let range1 = moment.range(moment(seg1[0], 'HH:mm'), moment(seg1[1], 'HH:mm'));
+                let range2 = moment.range(moment(seg2[0], 'HH:mm'), moment(seg2[1], 'HH:mm'));
+                if (range1.overlaps(range2)) {
+                    ret = true;
+                }
+                i++;
+            }
+            return ret;
         }
         var TIME_INDEX = 3;
         var YEAR_INDEX = 2;
@@ -187,35 +213,51 @@
             // console.log(months.indexOf(startDateTime[MONTH_INDEX]))
             // console.log(startdate.getDate().toString())
             // console.log(startDateTime[DAY_INDEX].toString())
-            var isSameDate = startdate.getFullYear().toString() === startDateTime[YEAR_INDEX] & 
-            startdate.getMonth() == (months.indexOf(startDateTime[MONTH_INDEX])) & startdate.getDate().toString() === startDateTime[DAY_INDEX].toString()
+            var isSameDate = startdate.getFullYear().toString() === startDateTime[YEAR_INDEX] &
+                startdate.getMonth() == (months.indexOf(startDateTime[MONTH_INDEX])) & startdate.getDate().toString() === startDateTime[DAY_INDEX].toString()
             if (isSameDate) {
-                startTimeStr = startdate.getHours().toString() + ':' + startdate.getMinutes().toString()
-                endTimeStr = enddate.getHours().toString() + ':' + enddate.getMinutes().toString()
+                var startmin = startdate.getMinutes().toString()
+                var endmin = enddate.getMinutes().toString()
+                if (startmin.length == 1) {
+                    startmin = "0" + startmin
+                }
+                if (endmin.length == 1) {
+                    endmin = "0" + startmin
+                }
+                startTimeStr = startdate.getHours().toString() + ':' + startmin
+                endTimeStr = enddate.getHours().toString() + ':' + endmin
                 timePeroids.push([startTimeStr, endTimeStr])
             }
 
         }
 
-        timePeroids.push([shiftTime(startDateTime[TIME_INDEX], startDateTime[SHIFT_INDEX]), shiftTime(endDateTime[TIME_INDEX],endDateTime[SHIFT_INDEX])])
+        timePeroids.push([shiftTime(startDateTime[TIME_INDEX], startDateTime[SHIFT_INDEX]), shiftTime(endDateTime[TIME_INDEX], endDateTime[SHIFT_INDEX])])
         console.log(timePeroids)
-        var jqxhr = $.post("/test", {
-            title: title,
-            description: description,
-            branch: branch,
-            username: username,
-            startDateTime: startDateTime,
-            endDateTime: endDateTime
-        }, function (tests) {
+        var isOverlapTimes = isOverlapTime(timePeroids)
+        console.log(isOverlapTimes)
+        if (!isOverlapTimes) {
+            var jqxhr = $.post("/test", {
+                title: title,
+                description: description,
+                branch: branch,
+                username: username,
+                startDateTime: startDateTime,
+                endDateTime: endDateTime
+            }, function (tests) {
 
-        })
-            .done(function () {
-                alert("success");
             })
-            .fail(function () {
-                alert("error");
-            })
+                .done(function () {
+                    alert("success");
+                })
+                .fail(function () {
+                    alert("error");
+                })
+        }
 
+        else {
+            
+            alert("Your selected time range is busy for this room")
+        }
         // Perform other work here ...
 
         // Set another completion function for the request above
