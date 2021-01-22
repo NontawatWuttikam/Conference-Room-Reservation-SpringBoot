@@ -53,9 +53,14 @@
                 </div>
             </div>
         </div>
+        <div class="field">
+            <label style="display: inline-block; font-size: medium; color: gray;">Reserver : </label>
+            <label th:text="${username}" style="display: inline-block; font-size: medium; color: gray;"></label>
+        </div>
+        <div style="padding-bottom: 10px;">
     </form>
-    <button class="ui green button" id="reserveBtn">Reserve</button>
-    <button class="ui red button" id="cancel" onclick="closemodal()">Cancel</button>
+    <button type = "button" class="ui green button" id="reserveBtn">Reserve</button>
+    <button type = "button" class="ui red button" id="cancel" onclick="closemodal()">Cancel</button>
 </body>
 
 <script src="https://code.jquery.com/jquery-3.1.1.min.js"
@@ -73,6 +78,8 @@
 <script
     src="https://cdn.rawgit.com/mdehoog/Semantic-UI/6e6d051d47b598ebab05857545f242caf2b4b48c/dist/semantic.min.js"></script>
 
+    <script type="text/javascript" src="/bower_components/semantic-ui-calendar/dist/calendar.min.js"></script>
+<link rel="stylesheet" href="/bower_components/semantic-ui-calendar/dist/calendar.min.css" />
 <script th:inline="javascript">
 
     var reserveBtn = $('#reserveBtn')[0]
@@ -81,13 +88,26 @@
     $('#select')
         .dropdown();
     $('#rangestart').calendar({
-        type: 'date',
+        type: 'datetime',
+        today: true,
+        initialDate: null,
+        disableYear: true,
         endCalendar: $('#rangeend')
     });
     $('#rangeend').calendar({
-        type: 'date',
         startCalendar: $('#rangestart')
     });
+
+    var startDateTime = null
+    var endDateTime = null
+    var username = /*[[${username}]]*/ "";
+    $('#rangestart').calendar({onChange: function (date, text) {
+     startDateTime = text;
+    },});
+
+    $('#rangeend').calendar({onChange: function (date, text) {
+     endDateTime = text;
+    },});
 
     function closemodal() {
         console.log("test")
@@ -97,8 +117,15 @@
     reserveBtn.onclick = () => {
         console.log("reserve click!")
         var title = $('#reserve-title').val()
-        var title = $('#reserve-description').val()
+        var description = $('#reserve-description').val()
+        var branch = $('#select').val()
         console.log(title)
+        console.log(description)
+        console.log(branch)
+        console.log(startDateTime)
+        console.log(endDateTime)
+        console.log(username)
+
     }
 
 
