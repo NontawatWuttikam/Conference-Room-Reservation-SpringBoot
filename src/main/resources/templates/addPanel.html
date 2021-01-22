@@ -236,7 +236,7 @@
         var isOverlapTimes = isOverlapTime(timePeroids)
         console.log(isOverlapTimes)
         if (!isOverlapTimes) {
-            var jqxhr = $.post("/test", {
+            var jqxhr = $.post("/reserveroom", {
                 title: title,
                 description: description,
                 branch: branch,

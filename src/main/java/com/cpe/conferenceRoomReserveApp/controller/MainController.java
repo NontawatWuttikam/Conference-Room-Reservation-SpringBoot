@@ -1,16 +1,21 @@
 package com.cpe.conferenceRoomReserveApp.controller;
 
+import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import com.cpe.conferenceRoomReserveApp.entity.Branch;
 import com.cpe.conferenceRoomReserveApp.entity.Reservation;
 import com.cpe.conferenceRoomReserveApp.entity.Room;
+import com.cpe.conferenceRoomReserveApp.entity.Staff;
 import com.cpe.conferenceRoomReserveApp.iclass.IReservationData;
 import com.cpe.conferenceRoomReserveApp.service.BranchService;
 import com.cpe.conferenceRoomReserveApp.service.ReservationService;
 import com.cpe.conferenceRoomReserveApp.service.RoomService;
+import com.cpe.conferenceRoomReserveApp.service.StaffService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -36,6 +41,9 @@ public class MainController {
     @Autowired
     ReservationService reservationService;
 
+    @Autowired
+    StaffService staffService;
+
     @RequestMapping("/login.html")
     public String login(Model model) {
 
@@ -56,8 +64,49 @@ public class MainController {
         return "home";
     }
 
-    @RequestMapping(value = "test", method = RequestMethod.POST)
+    @RequestMapping(value = "reserveroom", method = RequestMethod.POST)
     public String postMethodName(Model model, IReservationData iReservationData) {
+        int TIME_INDEX = 3;
+        int YEAR_INDEX = 2;
+        int DAY_INDEX = 1;
+        int MONTH_INDEX = 0;
+        int SHIFT_INDEX = 4;
+
+        List<String> months = Arrays.asList("January", "February", "March", "April", "May", "June", "July", "August",
+                "September", "October", "November", "December");
+        Reservation reserve = new Reservation();
+        reserve.setTitle(iReservationData.getTitle());
+        reserve.setDescription(iReservationData.getDescription());
+
+        Date startDateTime = new Date();
+        startDateTime.setDate(Integer.parseInt(iReservationData.getStartDateTime().get(DAY_INDEX)));
+        startDateTime.setMonth(months.indexOf(iReservationData.getStartDateTime().get(MONTH_INDEX)));
+        startDateTime.setYear(Integer.parseInt(iReservationData.getStartDateTime().get(YEAR_INDEX)));
+
+        int shour = Integer.parseInt(iReservationData.getStartDateTime().get(TIME_INDEX).split(":")[0]);
+        int sminute = Integer.parseInt(iReservationData.getStartDateTime().get(TIME_INDEX).split(":")[1]);
+
+        startDateTime.setHours(shour);
+        startDateTime.setMinutes(sminute);
+
+        Date endDateTime = new Date();
+        endDateTime.setDate(Integer.parseInt(iReservationData.getEndDateTime().get(DAY_INDEX)));
+        endDateTime.setMonth(months.indexOf(iReservationData.getEndDateTime().get(MONTH_INDEX)));
+        endDateTime.setYear(Integer.parseInt(iReservationData.getEndDateTime().get(YEAR_INDEX)));
+
+        int ehour = Integer.parseInt(iReservationData.getEndDateTime().get(TIME_INDEX).split(":")[0]);
+        int eminute = Integer.parseInt(iReservationData.getEndDateTime().get(TIME_INDEX).split(":")[1]);
+
+        endDateTime.setHours(ehour);
+        endDateTime.setMinutes(eminute);
+
+        reserve.setStartDateTime(startDateTime);
+        reserve.setEndDateTime(endDateTime);
+
+        Optional<Staff> staffInfo = staffService.getStaffByName(iReservationData.getUsername());
+
+        reserve.setReserverID(staffInfo.get().getStaffID());
+
         System.out.println(iReservationData);
         return "home";
     }
