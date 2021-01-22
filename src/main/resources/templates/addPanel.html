@@ -140,11 +140,18 @@
         console.log(startDateTime)
         console.log(endDateTime)
 
-        var jqxhr = $.post("/test", function (tests) {
-            alert(tests);
+        var jqxhr = $.post("/test",{
+            title:title,
+            description:description,
+            branch:branch,
+            username:username,
+            startDateTime:startDateTime,
+            endDateTime:endDateTime
+        }, function (tests) {
+            
         })
             .done(function () {
-                alert("second success");
+                alert("success");
             })
             .fail(function () {
                 alert("error");

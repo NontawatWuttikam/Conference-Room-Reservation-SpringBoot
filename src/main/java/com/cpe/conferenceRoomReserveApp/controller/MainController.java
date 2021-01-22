@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import com.cpe.conferenceRoomReserveApp.entity.Branch;
 import com.cpe.conferenceRoomReserveApp.entity.Reservation;
 import com.cpe.conferenceRoomReserveApp.entity.Room;
+import com.cpe.conferenceRoomReserveApp.iclass.IReservationData;
 import com.cpe.conferenceRoomReserveApp.service.BranchService;
 import com.cpe.conferenceRoomReserveApp.service.ReservationService;
 import com.cpe.conferenceRoomReserveApp.service.RoomService;
@@ -56,7 +57,8 @@ public class MainController {
     }
 
     @RequestMapping(value = "test", method = RequestMethod.POST)
-    public String postMethodName(Model model) {
+    public String postMethodName(Model model, IReservationData iReservationData) {
+        System.out.println(iReservationData);
         return "home";
     }
 
