@@ -10,18 +10,22 @@
     <form class="ui form">
         <div class="field">
             <label>Title</label>
-            <input type="text" name="title" placeholder="What is the event?">
+            <input type="text" name="title" placeholder="What is the event?" id="reserve-title">
         </div>
         <div class="field">
             <label>Description</label>
-            <input type="text" name="description" placeholder="Describe the information a bit.">
+            <input type="text" name="description" placeholder="Describe the information a bit."
+                id="reserve-description">
         </div>
         <div class="field">
             <label>Room To Reserve</label>
             <select name="gender" class="ui dropdown" id="select">
-                <option value="">Gender</option>
-                <option value="male">Male</option>
-                <option value="female">Female</option>
+                <h th:each="HOroom : ${HORooms}">
+                    <option th:value="${HOroom.roomID}" th:text="${HOroom.roomName + ' - ' + HOroom.branch.branchName}"></option>
+                </h>
+                <h th:each="RJroom : ${RJRooms}">
+                    <option th:value="${RJroom.roomID}" th:text="${RJroom.roomName + ' - ' + RJroom.branch.branchName}"></option>
+                </h>
             </select>
         </div>
         <div class="field">
@@ -50,7 +54,7 @@
             </div>
         </div>
     </form>
-    <button class="ui green button" type="submit" id="reserveBtn">Reserve</button>
+    <button class="ui green button" id="reserveBtn">Reserve</button>
     <button class="ui red button" id="cancel" onclick="closemodal()">Cancel</button>
 </body>
 
@@ -70,7 +74,10 @@
     src="https://cdn.rawgit.com/mdehoog/Semantic-UI/6e6d051d47b598ebab05857545f242caf2b4b48c/dist/semantic.min.js"></script>
 
 <script th:inline="javascript">
-    console.log("ddAsdd");
+
+    var reserveBtn = $('#reserveBtn')[0]
+    console.log("nani", reserveBtn)
+
     $('#select')
         .dropdown();
     $('#rangestart').calendar({
@@ -86,6 +93,15 @@
         console.log("test")
         modal.style.display = "none";
     }
+
+    reserveBtn.onclick = () => {
+        console.log("reserve click!")
+        var title = $('#reserve-title').val()
+        var title = $('#reserve-description').val()
+        console.log(title)
+    }
+
+
 </script>
 
 </html>

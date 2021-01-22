@@ -4,6 +4,8 @@ import lombok.Data;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 @Entity
 @Table(name = "ROOM")
 @Data
@@ -27,6 +29,19 @@ public class Room {
 
     @Column(name = "ROOMNO")
     private int roomNo;
+
+    @ManyToOne
+    @JsonProperty("branch")
+    @JoinColumn(name = "BRANCHID", insertable = false, updatable = false)
+    private Branch branch;
+
+    public Branch getBranch() {
+        return this.branch;
+    }
+
+    public void setBranch(Branch branch) {
+        this.branch = branch;
+    }
 
     public long getRoomID() {
         return this.roomID;

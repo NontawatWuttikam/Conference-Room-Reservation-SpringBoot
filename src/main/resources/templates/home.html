@@ -10,6 +10,7 @@
         }
 
         .modal {
+            transition: width 0.5s, height 0.5s;
             display: none;
             position: absolute;
             z-index: 2;
@@ -29,7 +30,7 @@
             margin: auto;
             padding: 20px;
             border: 1px solid #888;
-            width: 80%;
+            width: 60%;
         }
 
         /* The Close Button */
@@ -38,6 +39,8 @@
             float: right;
             font-size: 28px;
             font-weight: bold;
+            visibility: visible;
+            opacity: 1;
         }
 
         .close:hover,
