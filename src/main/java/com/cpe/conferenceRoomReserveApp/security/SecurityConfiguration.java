@@ -27,4 +27,13 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
+
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http.cors().and().csrf().disable();
+        http.authorizeRequests((requests) -> requests.anyRequest().authenticated());
+        http.formLogin();
+        http.httpBasic();
+    }
+
 }

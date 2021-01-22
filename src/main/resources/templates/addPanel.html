@@ -21,10 +21,12 @@
             <label>Room To Reserve</label>
             <select name="gender" class="ui dropdown" id="select">
                 <h th:each="HOroom : ${HORooms}">
-                    <option th:value="${HOroom.roomID}" th:text="${HOroom.roomName + ' - ' + HOroom.branch.branchName}"></option>
+                    <option th:value="${HOroom.roomID}" th:text="${HOroom.roomName + ' - ' + HOroom.branch.branchName}">
+                    </option>
                 </h>
                 <h th:each="RJroom : ${RJRooms}">
-                    <option th:value="${RJroom.roomID}" th:text="${RJroom.roomName + ' - ' + RJroom.branch.branchName}"></option>
+                    <option th:value="${RJroom.roomID}" th:text="${RJroom.roomName + ' - ' + RJroom.branch.branchName}">
+                    </option>
                 </h>
             </select>
         </div>
@@ -59,8 +61,8 @@
         </div>
         <div style="padding-bottom: 10px;">
     </form>
-    <button type = "button" class="ui green button" id="reserveBtn">Reserve</button>
-    <button type = "button" class="ui red button" id="cancel" onclick="closemodal()">Cancel</button>
+    <button type="button" class="ui green button" id="reserveBtn">Reserve</button>
+    <button type="button" class="ui red button" id="cancel" onclick="closemodal()">Cancel</button>
 </body>
 
 <script src="https://code.jquery.com/jquery-3.1.1.min.js"
@@ -78,8 +80,9 @@
 <script
     src="https://cdn.rawgit.com/mdehoog/Semantic-UI/6e6d051d47b598ebab05857545f242caf2b4b48c/dist/semantic.min.js"></script>
 
-    <script type="text/javascript" src="/bower_components/semantic-ui-calendar/dist/calendar.min.js"></script>
+<script type="text/javascript" src="/bower_components/semantic-ui-calendar/dist/calendar.min.js"></script>
 <link rel="stylesheet" href="/bower_components/semantic-ui-calendar/dist/calendar.min.css" />
+
 <script th:inline="javascript">
 
     var reserveBtn = $('#reserveBtn')[0]
@@ -101,13 +104,17 @@
     var startDateTime = null
     var endDateTime = null
     var username = /*[[${username}]]*/ "";
-    $('#rangestart').calendar({onChange: function (date, text) {
-     startDateTime = text;
-    },});
+    $('#rangestart').calendar({
+        onChange: function (date, text) {
+            startDateTime = text;
+        },
+    });
 
-    $('#rangeend').calendar({onChange: function (date, text) {
-     endDateTime = text;
-    },});
+    $('#rangeend').calendar({
+        onChange: function (date, text) {
+            endDateTime = text;
+        },
+    });
 
     function closemodal() {
         console.log("test")
@@ -122,10 +129,36 @@
         console.log(title)
         console.log(description)
         console.log(branch)
-        console.log(startDateTime)
-        console.log(endDateTime)
         console.log(username)
 
+        startDateTime = startDateTime.replace(",", "")
+        endDateTime = endDateTime.replace(",", "")
+
+        startDateTime = startDateTime.split(" ")
+        endDateTime = endDateTime.split(" ")
+
+        console.log(startDateTime)
+        console.log(endDateTime)
+
+        var jqxhr = $.post("/test", function (tests) {
+            alert(tests);
+        })
+            .done(function () {
+                alert("second success");
+            })
+            .fail(function () {
+                alert("error");
+            })
+            .always(function () {
+                alert("finished");
+            });
+
+        // Perform other work here ...
+
+        // Set another completion function for the request above
+        jqxhr.always(function () {
+            alert("second finished");
+        });
     }
 
 
