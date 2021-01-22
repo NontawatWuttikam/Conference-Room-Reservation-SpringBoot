@@ -128,10 +128,10 @@
         console.log("reserve click!")
         var title = $('#reserve-title').val()
         var description = $('#reserve-description').val()
-        var branch = $('#select').val()
+        var room = $('#select').val()
         console.log(title)
         console.log(description)
-        console.log(branch)
+        console.log(room)
         console.log(username)
 
         startDateTime = startDateTime.replace(",", "")
@@ -239,7 +239,7 @@
             var jqxhr = $.post("/reserveroom", {
                 title: title,
                 description: description,
-                branch: branch,
+                room: room,
                 username: username,
                 startDateTime: startDateTime,
                 endDateTime: endDateTime

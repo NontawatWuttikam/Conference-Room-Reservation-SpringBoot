@@ -20,4 +20,8 @@ public class ReservationService {
     public List<Reservation> getReservationByRoom(Long roomID) {
         return reservationRepository.findByRoomID(roomID);
     }
+
+    public void createReservation(Reservation reservation) {
+        reservationRepository.save(reservation);
+    }
 }

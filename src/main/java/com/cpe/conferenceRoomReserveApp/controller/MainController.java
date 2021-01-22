@@ -77,11 +77,12 @@ public class MainController {
         Reservation reserve = new Reservation();
         reserve.setTitle(iReservationData.getTitle());
         reserve.setDescription(iReservationData.getDescription());
+        reserve.setRoomID(Integer.parseInt(iReservationData.getRoom()));
 
         Date startDateTime = new Date();
         startDateTime.setDate(Integer.parseInt(iReservationData.getStartDateTime().get(DAY_INDEX)));
         startDateTime.setMonth(months.indexOf(iReservationData.getStartDateTime().get(MONTH_INDEX)));
-        startDateTime.setYear(Integer.parseInt(iReservationData.getStartDateTime().get(YEAR_INDEX)));
+        startDateTime.setYear(Integer.parseInt(iReservationData.getStartDateTime().get(YEAR_INDEX)) - 1900);
 
         int shour = Integer.parseInt(iReservationData.getStartDateTime().get(TIME_INDEX).split(":")[0]);
         int sminute = Integer.parseInt(iReservationData.getStartDateTime().get(TIME_INDEX).split(":")[1]);
@@ -92,7 +93,8 @@ public class MainController {
         Date endDateTime = new Date();
         endDateTime.setDate(Integer.parseInt(iReservationData.getEndDateTime().get(DAY_INDEX)));
         endDateTime.setMonth(months.indexOf(iReservationData.getEndDateTime().get(MONTH_INDEX)));
-        endDateTime.setYear(Integer.parseInt(iReservationData.getEndDateTime().get(YEAR_INDEX)));
+
+        endDateTime.setYear(Integer.parseInt(iReservationData.getEndDateTime().get(YEAR_INDEX)) - 1900);
 
         int ehour = Integer.parseInt(iReservationData.getEndDateTime().get(TIME_INDEX).split(":")[0]);
         int eminute = Integer.parseInt(iReservationData.getEndDateTime().get(TIME_INDEX).split(":")[1]);
@@ -107,7 +109,10 @@ public class MainController {
 
         reserve.setReserverID(staffInfo.get().getStaffID());
 
-        System.out.println(iReservationData);
+        System.out.println(reserve);
+
+        reservationService.createReservation(reserve);
+
         return "home";
     }
 

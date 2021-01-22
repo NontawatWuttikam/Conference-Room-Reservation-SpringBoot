@@ -6,7 +6,7 @@ public class IReservationData {
 
     private String title;
     private String description;
-    private String branch;
+    private String room;
     private String username;
     private List<String> startDateTime;
     private List<String> endDateTime;
@@ -27,12 +27,12 @@ public class IReservationData {
         this.description = description;
     }
 
-    public String getBranch() {
-        return this.branch;
+    public String getRoom() {
+        return this.room;
     }
 
-    public void setBranch(String branch) {
-        this.branch = branch;
+    public void setRoom(String branch) {
+        this.room = branch;
     }
 
     public String getUsername() {
