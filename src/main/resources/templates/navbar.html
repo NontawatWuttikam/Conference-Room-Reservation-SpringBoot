@@ -8,6 +8,7 @@
             padding-top: 0 !important;
             margin-bottom: 20px;
         }
+
         .ui.menu {
             margin-top: 0 !important;
             padding-top: 0 !important;
@@ -18,7 +19,7 @@
 </head>
 
 <body>
-    <div class="ui menu">
+    <div class="ui middle aligned menu">
         <div class="item">
             <img width="60" height="30" src="https://uppic.cc/d/BO984QvFGnpGE5x0c_Uz0" style="display: inline-block;">
             <div style="display: inline-flex; font-size:large; font-weight: bold;">Conference Room Reservation</div>
@@ -29,12 +30,16 @@
         <a class="item" id="reserve">
             Reserve
         </a>
-        <div class="item right aligned red" style="display:inline-block">
-            <button class="ui button red">Sign Out</button>
+        <div class="item right aligned middle aligned" style="display:flex">
+            <div class="content middle aligned">
+                <button class="ui button red" style="display:inline-block" onclick="logout()">Sign Out</button>
+            </div>
         </div>
-        <div class="item right aligned" style="display:inline-block">
-            <i class="user icon " style="display:inline-block"></i>
-            <div th:text="${username}" style="display:inline-block"></div>
+        <div class="item right aligned middle aligned" style="display:flex;     text-align:center; padding-top: 20px;">
+            <div class="content middle aligned">
+                <i class="user icon middle aligned" style="display:inline-block;     text-align:center;"></i>
+                <div class=  "middle aligned" th:text="${username}" style="display:inline-block"></div>
+            </div>
         </div>>
     </div>
 </body>
@@ -43,4 +48,17 @@
     integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
 <script src="semantic/dist/semantic.min.js"></script>
 
+<script language"javascript">
+    function logout() {
+        var jqxhr = $.get("/logout", function (tests) {
+
+            })
+                .done(function () {
+                    window.location.reload(false); 
+                })
+                .fail(function () {
+                    alert("error");
+                })
+        }
+</script>
 </html>

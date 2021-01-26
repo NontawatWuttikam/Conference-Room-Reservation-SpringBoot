@@ -38,7 +38,7 @@
       var calendarEl = document.getElementById('calendar');
 
       var calendar = new FullCalendar.Calendar(calendarEl, {
-      
+
         themeSystem: 'standard',
         headerToolbar: {
           left: 'prev,next today',
@@ -105,20 +105,35 @@
       margin: 0 auto;
     }
 
-    .fc-today-button, .fc-next-button, .fc-prev-button, .fc-dayGridMonth-button, .fc-timeGridWeek-button, .fc-timeGridDay-button {
+    .fc-today-button,
+    .fc-next-button,
+    .fc-prev-button,
+    .fc-dayGridMonth-button,
+    .fc-timeGridWeek-button,
+    .fc-timeGridDay-button {
       background-color: rgb(231, 17, 115);
     }
-    .fc-prev-button.fc-button.fc-button-primary,.fc-next-button.fc-button.fc-button-primary, .fc-today-button.fc-button.fc-button-primary,
-    .fc-dayGridMonth-button.fc-button.fc-button-primary,.fc-timeGridWeek-button.fc-button.fc-button-primary,.fc-timeGridDay-button.fc-button.fc-button-primary {
+
+    .fc-prev-button.fc-button.fc-button-primary,
+    .fc-next-button.fc-button.fc-button-primary,
+    .fc-today-button.fc-button.fc-button-primary,
+    .fc-dayGridMonth-button.fc-button.fc-button-primary,
+    .fc-timeGridWeek-button.fc-button.fc-button-primary,
+    .fc-timeGridDay-button.fc-button.fc-button-primary {
       background-color: rgb(216, 17, 98);
-      border-color: rgb(216, 17, 98);;
+      border-color: rgb(216, 17, 98);
+      ;
       outline: 0ch;
     }
 
-    .fc-prev-button.fc-button.fc-button-primary.fc-button-active,.fc-next-button.fc-button.fc-button-primary.fc-button-active, .fc-today-button.fc-button.fc-button-primary.fc-button-active,
-    .fc-dayGridMonth-button.fc-button.fc-button-primary.fc-button-active,.fc-timeGridWeek-button.fc-button.fc-button-primary.fc-button-active,.fc-timeGridDay-button.fc-button.fc-button-primary.fc-button-active {
+    .fc-prev-button.fc-button.fc-button-primary.fc-button-active,
+    .fc-next-button.fc-button.fc-button-primary.fc-button-active,
+    .fc-today-button.fc-button.fc-button-primary.fc-button-active,
+    .fc-dayGridMonth-button.fc-button.fc-button-primary.fc-button-active,
+    .fc-timeGridWeek-button.fc-button.fc-button-primary.fc-button-active,
+    .fc-timeGridDay-button.fc-button.fc-button-primary.fc-button-active {
       background-color: rgb(155, 15, 71);
-      border-color:rgb(155, 15, 71);
+      border-color: rgb(155, 15, 71);
       outline: 0ch;
     }
 
@@ -127,19 +142,36 @@
     }
 
     .fc-timegrid-event-harness {
-      background-color : rgb(216, 17, 98);
+      background-color: rgb(216, 17, 98);
       border-color: rgb(216, 17, 98);
       outline-color: rgb(216, 17, 98);
-      color
     }
+
     .fc-event-main-frame {
-      background-color : rgb(216, 17, 98);
+      background-color: rgb(216, 17, 98);
       border-color: rgb(216, 17, 98);
       outline-color: rgb(216, 17, 98);
 
     }
+
     .fc-button {
       background-color: rgb(231, 17, 115);
+    }
+
+    .vertical-center {
+      display: table-cell;
+      margin: 0;
+      position: relative;
+      vertical-align: middle;
+    }
+
+    .content.v {
+      display: table;
+    }
+
+    i.icon {
+      vertical-align: middle;
+      font-size: inherit;
     }
   </style>
 </head>
@@ -147,12 +179,14 @@
 <body>
   <div class="ui grid">
     <div class="eleven wide column">
-      <div class="ui fluid card">
+      <div class="ui fluid card ">
 
-        <div class="content">
-          <div class="ui fluid card">
-            <div class="content">
-              <h2 style="display:block;" th:text="${roomName}"></h2>
+        <div class="content v">
+          <div class="ui middle aligned fluid card">
+            <div class="content vertical-center" style="display: table-cell; vertical-align:middle; display: flex;
+">
+              <i style="display:inline-block; vertical-align: middle;" class=" building big icon"></i>
+              <h2 class="ui header" style="display:inline-block;" th:text="${roomName}"></h2>
             </div>
           </div>
           <div>
