@@ -9,5 +9,4 @@ public class ConferenceRoomReserveAppApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(ConferenceRoomReserveAppApplication.class, args);
 	}
-
 }

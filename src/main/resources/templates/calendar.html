@@ -2,6 +2,8 @@
 <html xmlns:th="http://www.thymeleaf.org" th:fragment="calendar(reservesData)">
 
 <head>
+  <link href='https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.css' rel='stylesheet' />
+  <link href='https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13.1/css/all.css' rel='stylesheet'>
   <meta charset='utf-8' />
   <link href='../lib/main.css' rel='stylesheet' />
   <script src='../lib/main.js'></script>
@@ -36,6 +38,8 @@
       var calendarEl = document.getElementById('calendar');
 
       var calendar = new FullCalendar.Calendar(calendarEl, {
+      
+        themeSystem: 'standard',
         headerToolbar: {
           left: 'prev,next today',
           center: 'title',
@@ -61,7 +65,7 @@
         //   calendar.unselect()
         // },
         eventClick: function (arg) {
-          console.log("event",events)
+          console.log("event", events)
           console.log(arg.event.start)
           console.log(arg.event.end)
 
@@ -100,16 +104,60 @@
       max-width: 1100px;
       margin: 0 auto;
     }
+
+    .fc-today-button, .fc-next-button, .fc-prev-button, .fc-dayGridMonth-button, .fc-timeGridWeek-button, .fc-timeGridDay-button {
+      background-color: rgb(231, 17, 115);
+    }
+    .fc-prev-button.fc-button.fc-button-primary,.fc-next-button.fc-button.fc-button-primary, .fc-today-button.fc-button.fc-button-primary,
+    .fc-dayGridMonth-button.fc-button.fc-button-primary,.fc-timeGridWeek-button.fc-button.fc-button-primary,.fc-timeGridDay-button.fc-button.fc-button-primary {
+      background-color: rgb(216, 17, 98);
+      border-color: rgb(216, 17, 98);;
+      outline: 0ch;
+    }
+
+    .fc-prev-button.fc-button.fc-button-primary.fc-button-active,.fc-next-button.fc-button.fc-button-primary.fc-button-active, .fc-today-button.fc-button.fc-button-primary.fc-button-active,
+    .fc-dayGridMonth-button.fc-button.fc-button-primary.fc-button-active,.fc-timeGridWeek-button.fc-button.fc-button-primary.fc-button-active,.fc-timeGridDay-button.fc-button.fc-button-primary.fc-button-active {
+      background-color: rgb(155, 15, 71);
+      border-color:rgb(155, 15, 71);
+      outline: 0ch;
+    }
+
+    .fc-daygrid-event-dot {
+      border-color: rgb(216, 17, 98);
+    }
+
+    .fc-timegrid-event-harness {
+      background-color : rgb(216, 17, 98);
+      border-color: rgb(216, 17, 98);
+      outline-color: rgb(216, 17, 98);
+      color
+    }
+    .fc-event-main-frame {
+      background-color : rgb(216, 17, 98);
+      border-color: rgb(216, 17, 98);
+      outline-color: rgb(216, 17, 98);
+
+    }
+    .fc-button {
+      background-color: rgb(231, 17, 115);
+    }
   </style>
 </head>
 
 <body>
-  <div class="ui  grid">
+  <div class="ui grid">
     <div class="eleven wide column">
       <div class="ui fluid card">
 
         <div class="content">
-          <div id='calendar'></div>
+          <div class="ui fluid card">
+            <div class="content">
+              <h2 style="display:block;" th:text="${roomName}"></h2>
+            </div>
+          </div>
+          <div>
+            <div id='calendar'></div>
+          </div>
         </div>
       </div>
     </div>
