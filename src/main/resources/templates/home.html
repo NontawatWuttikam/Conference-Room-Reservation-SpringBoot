@@ -69,32 +69,40 @@
     <div>
         <div class="ui internally celled grid">
             <div class="two wide column">
-
-                <h3 class="ui header">Rom Klao Headquarter</h3>
-                <div class="ui secondary vertical menu">
-                    <h3 th:each="HOroom : ${HORooms}">
-                        <div th:if="@{HOroom.roomID} == @{selectedRoom.roomID}">
-                            <a class="item" th:href="@{/room/{roomid}(roomid = ${HOroom.roomID})}"
-                                th:text="${HOroom.roomName + ' (' + HOroom.roomNo + ')'}" style="color:rgb(255, 0, 255);"> /br</a>
+                <div class="ui fluid card">
+                    <div class="content">
+                        <div class="header">Select A Room</div>
+                      </div>
+                    <div class="extra content">
+                        <h4 class="ui header">Rom Klao Headquarter</br></h4>
+                        <div class="ui secondary vertical menu">
+                            <h3 th:each="HOroom : ${HORooms}">
+                                <div th:if="@{HOroom.roomID} == @{selectedRoom.roomID}">
+                                    <a class="item" th:href="@{/room/{roomid}(roomid = ${HOroom.roomID})}"
+                                        th:text="${HOroom.roomName + ' (' + HOroom.roomNo + ')'}"
+                                        style="color:rgb(255, 0, 255);"> /br</a>
+                                </div>
+                                <div th:if="@{HOroom.roomID != selectedRoom.roomID}">
+                                    <a class="item" th:href="@{/room/{roomid}(roomid = ${HOroom.roomID})}"
+                                        th:text="${HOroom.roomName + ' (' + HOroom.roomNo + ')'}"> /br</a>
+                                </div>
+                            </h3>
                         </div>
-                        <div th:if="@{HOroom.roomID != selectedRoom.roomID}">
-                            <a class="item" th:href="@{/room/{roomid}(roomid = ${HOroom.roomID})}"
-                                th:text="${HOroom.roomName + ' (' + HOroom.roomNo + ')'}" > /br</a>
-                        </div>
-                    </h3>
-                </div>
 
-                <h3 class="ui header">Rojana Branch</h3>
-                <div class="ui secondary vertical menu">
-                    <h3 th:each="RJroom : ${RJRooms}">
-                        <a class="item" th:href="@{/room/{roomid}(roomid = ${RJroom.roomID})}"
-                            th:text="${RJroom.roomName + ' (' + RJroom.roomNo + ')'}"> /br</a>
-                    </h3>
+
+                        <h4 class="ui header">Rojana Branch</br></43>
+                        <div class="ui secondary vertical menu">
+                            <h3 th:each="RJroom : ${RJRooms}">
+                                <a class="item" th:href="@{/room/{roomid}(roomid = ${RJroom.roomID})}"
+                                    th:text="${RJroom.roomName + ' (' + RJroom.roomNo + ')'}"> /br</a>
+                            </h3>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="ten wide column">
+            <div class="fourteen wide column">
+                    <!-- <h2 th:text="${roomName}"></h2> -->
                 <div>
-                    <h2 th:text="${roomName}"></h2>
                     <nav th:include="calendar :: calendar(${reservesByRoom})"></nav>
                 </div>
             </div>
