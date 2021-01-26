@@ -250,10 +250,11 @@
 
             })
                 .done(function () {
-                    alert("success");
+                    alert("Reserve Successfully");
+                    window.location.reload(false); 
                 })
                 .fail(function () {
-                    alert("error");
+                    alert("Unknown Error (STATUS 500)");
                 })
         }
 
