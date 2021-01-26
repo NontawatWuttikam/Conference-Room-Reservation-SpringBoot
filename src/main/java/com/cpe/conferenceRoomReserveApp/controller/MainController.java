@@ -119,7 +119,14 @@ public class MainController {
         int shour = Integer.parseInt(iReservationData.getStartDateTime().get(TIME_INDEX).split(":")[0]);
         int sminute = Integer.parseInt(iReservationData.getStartDateTime().get(TIME_INDEX).split(":")[1]);
 
-        startDateTime.setHours(shour);
+        if (iReservationData.getStartDateTime().get(SHIFT_INDEX).toLowerCase().equals("am") && shour == 12)
+            startDateTime.setHours(0);
+        else if (iReservationData.getStartDateTime().get(SHIFT_INDEX).toLowerCase().equals("am") && shour != 12)
+            startDateTime.setHours(shour);
+        else if (iReservationData.getStartDateTime().get(SHIFT_INDEX).toLowerCase().equals("pm") && shour == 12)
+            startDateTime.setHours(shour);
+        else if (iReservationData.getStartDateTime().get(SHIFT_INDEX).toLowerCase().equals("pm") && shour != 12)
+            startDateTime.setHours(12 + shour);
         startDateTime.setMinutes(sminute);
 
         Date endDateTime = new Date();
@@ -131,7 +138,15 @@ public class MainController {
         int ehour = Integer.parseInt(iReservationData.getEndDateTime().get(TIME_INDEX).split(":")[0]);
         int eminute = Integer.parseInt(iReservationData.getEndDateTime().get(TIME_INDEX).split(":")[1]);
 
-        endDateTime.setHours(ehour);
+        if (iReservationData.getEndDateTime().get(SHIFT_INDEX).toLowerCase().equals("am") && ehour == 12)
+            endDateTime.setHours(0);
+        else if (iReservationData.getEndDateTime().get(SHIFT_INDEX).toLowerCase().equals("am") && ehour != 12)
+            endDateTime.setHours(ehour);
+        else if (iReservationData.getEndDateTime().get(SHIFT_INDEX).toLowerCase().equals("pm") && ehour == 12)
+            endDateTime.setHours(ehour);
+        else if (iReservationData.getEndDateTime().get(SHIFT_INDEX).toLowerCase().equals("pm") && ehour != 12)
+            endDateTime.setHours(12 + ehour);
+
         endDateTime.setMinutes(eminute);
 
         reserve.setStartDateTime(startDateTime);
