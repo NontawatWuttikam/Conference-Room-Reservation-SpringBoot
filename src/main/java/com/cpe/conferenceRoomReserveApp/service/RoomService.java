@@ -1,6 +1,7 @@
 package com.cpe.conferenceRoomReserveApp.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.transaction.Transactional;
 
@@ -19,5 +20,9 @@ public class RoomService {
 
     public List<Room> getAllRoom() {
         return roomRepository.findAll();
+    }
+
+    public Optional<Room> getRoomById(Long roomId) {
+        return roomRepository.findById(roomId);
     }
 }

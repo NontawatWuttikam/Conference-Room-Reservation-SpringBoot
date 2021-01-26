@@ -145,7 +145,10 @@
 
         var timePeroids = []
         var datas = /*[[${reserves}]]*/[];
-
+        datas = datas.filter( (x) => {
+            return x.roomID === parseInt(room)
+        })
+        console.log("datas",datas)
         var months = [
             'January',
             'February',

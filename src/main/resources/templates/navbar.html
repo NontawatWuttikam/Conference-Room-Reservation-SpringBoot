@@ -4,12 +4,13 @@
 <head>
     <style>
         body {
-            margin: 0 !important;
-            padding: 0 !important;
+            margin-top: 0 !important;
+            padding-top: 0 !important;
+            margin-bottom: 20px;
         }
         .ui.menu {
-            margin: 0 !important;
-            padding: 0 !important;
+            margin-top: 0 !important;
+            padding-top: 0 !important;
         }
     </style>
     <link rel="stylesheet" type="text/css" href="semantic/dist/semantic.min.css">
@@ -18,8 +19,9 @@
 
 <body>
     <div class="ui menu">
-        <div class="header item">
-            Snail White Room Reservation
+        <div class="item">
+            <img class = "ui tiny image" src="https://uppic.cc/d/BO984QvFGnpGE5x0c_Uz0" style="display: inline-block;">
+            <div style="display: inline-flex; font-size:large; font-weight: bold;">Conference Room Reservation</div>
         </div>
         <a class="item">
             Calendar
@@ -27,12 +29,12 @@
         <a class="item" id="reserve">
             Reserve
         </a>
-        <div class="item right aligned red">
+        <div class="item right aligned red" style="display:inline-block">
             <button class="ui button red">Sign Out</button>
         </div>
-        <div class="item right aligned">
-            <i class="user icon " style="display:inline"></i>
-            <div th:text="${username}" style="display:inline"></div>
+        <div class="item right aligned" style="display:inline-block">
+            <i class="user icon " style="display:inline-block"></i>
+            <div th:text="${username}" style="display:inline-block"></div>
         </div>>
     </div>
 </body>

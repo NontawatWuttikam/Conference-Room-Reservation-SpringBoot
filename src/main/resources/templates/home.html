@@ -68,26 +68,35 @@
     </div>
     <div>
         <div class="ui internally celled grid">
-            <div class="three wide column">
+            <div class="two wide column">
 
                 <h3 class="ui header">Rom Klao Headquarter</h3>
-                <div class="ui secondary vertical pointing menu">
+                <div class="ui secondary vertical menu">
                     <h3 th:each="HOroom : ${HORooms}">
-                        <a class="item" th:href="@{/branch/{roomid}(roomid = ${HOroom.roomID})}"
-                            th:text="${HOroom.roomName + ' (' + HOroom.roomNo + ')'}"> /br</a>
+                        <div th:if="@{HOroom.roomID} == @{selectedRoom.roomID}">
+                            <a class="item" th:href="@{/room/{roomid}(roomid = ${HOroom.roomID})}"
+                                th:text="${HOroom.roomName + ' (' + HOroom.roomNo + ')'}" style="color:rgb(255, 0, 255);"> /br</a>
+                        </div>
+                        <div th:if="@{HOroom.roomID != selectedRoom.roomID}">
+                            <a class="item" th:href="@{/room/{roomid}(roomid = ${HOroom.roomID})}"
+                                th:text="${HOroom.roomName + ' (' + HOroom.roomNo + ')'}" > /br</a>
+                        </div>
                     </h3>
                 </div>
 
                 <h3 class="ui header">Rojana Branch</h3>
-                <div class="ui secondary vertical pointing menu">
+                <div class="ui secondary vertical menu">
                     <h3 th:each="RJroom : ${RJRooms}">
                         <a class="item" th:href="@{/branch/{roomid}(roomid = ${RJroom.roomID})}"
                             th:text="${RJroom.roomName + ' (' + RJroom.roomNo + ')'}"> /br</a>
                     </h3>
                 </div>
             </div>
-            <div class="nine wide column">
-                <nav th:include="calendar :: calendar(${reserves})"></nav>
+            <div class="ten wide column">
+                <div>
+                    <h2 th:text="${roomName}"></h2>
+                    <nav th:include="calendar :: calendar(${reserves})"></nav>
+                </div>
             </div>
         </div>
     </div>

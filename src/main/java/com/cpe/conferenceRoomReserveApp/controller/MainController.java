@@ -26,6 +26,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -55,10 +56,36 @@ public class MainController {
 
         System.out.println(new BCryptPasswordEncoder().encode("password"));
 
-        List<Reservation> reserves = reservationService.getReservationByRoom(8L);
+        List<Reservation> reserves = reservationService.getAll();
+        Optional<Room> room = roomService.getRoomById(8L);
+        model.addAttribute("roomName", room.get().getRoomName() + " " + room.get().getBranch().getBranchName());
         model.addAttribute("reserves", reserves);
+        model.addAttribute("selectedRoom", room);
         model.addAttribute("HORooms", roomMapByBranch.get(0L));
         model.addAttribute("RJRooms", roomMapByBranch.get(1L));
+        model.addAttribute("username", loggedInUser.getName());
+        model.addAttribute("branches", branches);
+        return "home";
+    }
+
+    @RequestMapping("/room/{rid}")
+    public String getBranch(Model model, @PathVariable("rid") Long roomId) {
+        Authentication loggedInUser = SecurityContextHolder.getContext().getAuthentication();
+        List<Branch> branches = branchService.getAllBranch();
+        List<Room> rooms = roomService.getAllRoom();
+        Map<Long, List<Room>> roomMapByBranch = rooms.stream().collect(Collectors.groupingBy(Room::getBranchID));
+
+        System.out.println(new BCryptPasswordEncoder().encode("password"));
+
+        List<Reservation> reserves = reservationService.getAll();
+        ;
+        Optional<Room> room = roomService.getRoomById(roomId);
+        model.addAttribute("reserves", reserves);
+        model.addAttribute("roomName", room.get().getRoomName() + " " + room.get().getBranch().getBranchName());
+
+        model.addAttribute("HORooms", roomMapByBranch.get(0L));
+        model.addAttribute("RJRooms", roomMapByBranch.get(1L));
+
         model.addAttribute("username", loggedInUser.getName());
         model.addAttribute("branches", branches);
         return "home";
