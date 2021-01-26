@@ -14,7 +14,11 @@
       events.push({ 
         title: datas[i].title,
         start: datas[i].startDateTime,
-        end: datas[i].endDateTime
+        end: datas[i].endDateTime,
+        extendedProps: {
+          reserverName: datas[i].reserver.staffName,
+          roomName: datas[i].room.roomName
+        }
       })
     }
     document.addEventListener('DOMContentLoaded', function() {
@@ -30,20 +34,24 @@
       navLinks: true, // can click day/week names to navigate views
       selectable: true,
       selectMirror: true,
-      select: function(arg) {
-        var title = prompt('Event Title:');
-        if (title) {
-          calendar.addEvent({
-            title: title,
-            start: arg.start,
-            end: arg.end,
-            allDay: arg.allDay
-          })
-        }
-        calendar.unselect()
-      },
+      // select: function(arg) {
+      //   var title = prompt('Event Title:');
+      //   if (title) {
+      //     calendar.addEvent({
+      //       title: title,
+      //       start: arg.start,
+      //       end: arg.end,
+      //       allDay: arg.allDay
+      //     })
+      //   }
+      //   calendar.unselect()
+      // },
       eventClick: function(arg) {
-        console.log(arg)
+        console.log(arg.event.title)
+        console.log(arg.event.extendedProps.reserverName)
+        console.log(arg.event.extendedProps.roomName)
+
+
       },
       editable: true,
       dayMaxEvents: true, // allow "more" link when too many events

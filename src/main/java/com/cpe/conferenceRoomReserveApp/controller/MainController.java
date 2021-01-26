@@ -58,8 +58,10 @@ public class MainController {
 
         List<Reservation> reserves = reservationService.getAll();
         Optional<Room> room = roomService.getRoomById(8L);
+        List<Reservation> reservesByRoom = reservationService.getReservationByRoom(8L);
         model.addAttribute("roomName", room.get().getRoomName() + " " + room.get().getBranch().getBranchName());
         model.addAttribute("reserves", reserves);
+        model.addAttribute("reservesByRoom", reservesByRoom);
         model.addAttribute("selectedRoom", room);
         model.addAttribute("HORooms", roomMapByBranch.get(0L));
         model.addAttribute("RJRooms", roomMapByBranch.get(1L));
@@ -79,8 +81,11 @@ public class MainController {
 
         List<Reservation> reserves = reservationService.getAll();
         ;
+
+        List<Reservation> reservesByRoom = reservationService.getReservationByRoom(roomId);
         Optional<Room> room = roomService.getRoomById(roomId);
         model.addAttribute("reserves", reserves);
+        model.addAttribute("reservesByRoom", reservesByRoom);
         model.addAttribute("roomName", room.get().getRoomName() + " " + room.get().getBranch().getBranchName());
 
         model.addAttribute("HORooms", roomMapByBranch.get(0L));

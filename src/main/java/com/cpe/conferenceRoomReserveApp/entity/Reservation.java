@@ -3,6 +3,9 @@ package com.cpe.conferenceRoomReserveApp.entity;
 import lombok.Data;
 
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.Date;
 
 @Entity
@@ -29,6 +32,16 @@ public class Reservation {
     @Column(name = "STARTDATETIME")
     @Temporal(TemporalType.TIMESTAMP)
     private Date startDateTime;
+
+    @ManyToOne
+    @JsonProperty("reserver")
+    @JoinColumn(name = "RESERVERID", insertable = false, updatable = false)
+    private Staff reserver;
+
+    @ManyToOne
+    @JsonProperty("room")
+    @JoinColumn(name = "ROOMID", insertable = false, updatable = false)
+    private Room room;
 
     @Column(name = "ENDDATETIME")
     @Temporal(TemporalType.TIMESTAMP)
@@ -88,6 +101,22 @@ public class Reservation {
 
     public void setEndDateTime(Date endDateTime) {
         this.endDateTime = endDateTime;
+    }
+
+    public Staff getReserver() {
+        return this.reserver;
+    }
+
+    public void setReserver(Staff reserver) {
+        this.reserver = reserver;
+    }
+
+    public Room getRoom() {
+        return this.room;
+    }
+
+    public void setRoom(Room room) {
+        this.room = room;
     }
 
 }
