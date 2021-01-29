@@ -54,6 +54,11 @@ public class MainController {
     @Autowired
     StaffService staffService;
 
+    @RequestMapping("/login")
+    public String login() {
+        return "login";
+    }
+
     @RequestMapping("/login.html")
     public String login(Model model) {
 

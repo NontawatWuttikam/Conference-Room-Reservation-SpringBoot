@@ -1,26 +1,30 @@
 package com.cpe.conferenceRoomReserveApp.security;
 
+import com.cpe.conferenceRoomReserveApp.service.UserService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
-@EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-    // [...]
     @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth)
+    private UserService userService;
 
-            throws Exception {
-        auth.inMemoryAuthentication().withUser("Anon JansaiChon").password(passwordEncoder().encode("password"))
-                .roles("ADMIN").and().withUser("Nontawat Wuttikam").password(passwordEncoder().encode("password"))
-                .roles("ADMIN");
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http.authorizeRequests().antMatchers("/registration**", "/js/**", "/css/**", "/img/**", "/webjars/**")
+                .permitAll().anyRequest().authenticated().and().formLogin().loginPage("/login").permitAll()
+                .defaultSuccessUrl("/login.html", true).and().logout().invalidateHttpSession(true)
+                .clearAuthentication(true).logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                .logoutSuccessUrl("/login?logout").permitAll();
     }
 
     @Bean
@@ -28,12 +32,16 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
 
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http.cors().and().csrf().disable();
-        http.authorizeRequests((requests) -> requests.anyRequest().authenticated());
-        http.formLogin();
-        http.httpBasic();
+    @Bean
+    public DaoAuthenticationProvider authenticationProvider() {
+        DaoAuthenticationProvider auth = new DaoAuthenticationProvider();
+        auth.setUserDetailsService(userService);
+        auth.setPasswordEncoder(passwordEncoder());
+        return auth;
     }
 
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.authenticationProvider(authenticationProvider());
+    }
 }
