@@ -30,8 +30,9 @@
             margin: auto;
             padding: 20px;
             border: 1px solid #888;
-            width: 60%;
-            max-width: 50%;
+            width: 40%;
+            max-width: 40%;
+            min-width: fit-content;
         }
 
         /* The Close Button */
@@ -71,41 +72,46 @@
             <div class="two wide column">
                 <div class="ui fluid card">
                     <div class="content">
-                        <div class="header">Select A Room</div>
-                      </div>
+                        <div class="header">กรุณาเลือกห้อง</div>
+                    </div>
                     <div class="extra content">
-                        <h4 class="ui header">Rom Klao Headquarter</br></h4>
+                        <h4 class="ui header">สำนักงานใหญ่ร่มเกล้า (HO)</br></h4>
+                        <div class="ui divider"></div>
+
                         <div class="ui secondary vertical menu">
                             <h3 th:each="HOroom : ${HORooms}">
-                                <div th:if="@{HOroom.roomID} == @{selectedRoom.roomID}">
-                                    <a class="item" th:href="@{/room/{roomid}(roomid = ${HOroom.roomID})}"
-                                        th:text="${HOroom.roomName + ' (' + HOroom.roomNo + ')'}"
-                                        style="color:rgb(255, 0, 255);"> /br</a>
-                                </div>
-                                <div th:if="@{HOroom.roomID != selectedRoom.roomID}">
-                                    <a class="item" th:href="@{/room/{roomid}(roomid = ${HOroom.roomID})}"
-                                        th:text="${HOroom.roomName + ' (' + HOroom.roomNo + ')'}"> /br</a>
-                                </div>
+
+                                <i class="caret right small icon"
+                                    style="display:inline-block; vertical-align: middle;"></i>
+                                <a class="item" th:href="@{/room/{roomid}(roomid = ${HOroom.roomID})}"
+                                    th:text="${HOroom.roomName + ' (' + HOroom.roomNo + ')'}"
+                                    style="display:inline-block; vertical-align: middle; color:  rgb(216, 17, 98);">
+                                    /br</a>
                             </h3>
                         </div>
 
 
-                        <h4 class="ui header">Rojana Branch</br></43>
-                        <div class="ui secondary vertical menu">
-                            <h3 th:each="RJroom : ${RJRooms}">
-                                <a class="item" th:href="@{/room/{roomid}(roomid = ${RJroom.roomID})}"
-                                    th:text="${RJroom.roomName + ' (' + RJroom.roomNo + ')'}"> /br</a>
-                            </h3>
-                        </div>
+                        <h4 class="ui header">สาขาโรจนะ (RJ)</br></h4>
+                            <div class="ui divider"></div>
+                            <div class="ui secondary vertical menu">
+                                <h3 th:each="RJroom : ${RJRooms}">
+                                    <i class="caret right small icon"
+                                        style="display:inline-block; vertical-align: middle;"></i>
+                                    <a class="item" th:href="@{/room/{roomid}(roomid = ${RJroom.roomID})}"
+                                        th:text="${RJroom.roomName + ' (' + RJroom.roomNo + ')'}"
+                                        style="display:inline-block; vertical-align: middle; color:  rgb(216, 17, 98);">
+                                        /br</a>
+                                </h3>
+                            </div>
                     </div>
                 </div>
             </div>
             <div class="fourteen wide fluid column">
-                
-                    <nav th:include="calendar :: calendar(${reservesByRoom})"></nav>
-                </div>
+
+                <nav th:include="calendar :: calendar(${reservesByRoom})"></nav>
             </div>
         </div>
+    </div>
     </div>
 </body>
 

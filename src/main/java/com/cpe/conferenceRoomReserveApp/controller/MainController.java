@@ -34,6 +34,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
+class C {
+    public static int FLOAT_FLOOR = -1;
+    public static String FLOAT_TH = "ลอย";
+}
+
 @Controller
 public class MainController {
 
@@ -63,7 +68,9 @@ public class MainController {
         List<Reservation> reserves = reservationService.getAll();
         Optional<Room> room = roomService.getRoomById(8L);
         List<Reservation> reservesByRoom = reservationService.getReservationByRoom(8L);
-        model.addAttribute("roomName", room.get().getRoomName() + " " + room.get().getBranch().getBranchName());
+        String floor = (room.get().getFloor() == C.FLOAT_FLOOR) ? C.FLOAT_TH : String.valueOf(room.get().getFloor());
+        model.addAttribute("roomName", room.get().getRoomName() + " " + room.get().getBranch().getBranchName()
+                + " ชั้น " + floor + " ห้องที่ " + room.get().getRoomNo());
         model.addAttribute("reserves", reserves);
         model.addAttribute("reservesByRoom", reservesByRoom);
         model.addAttribute("selectedRoom", room);
@@ -90,7 +97,9 @@ public class MainController {
         Optional<Room> room = roomService.getRoomById(roomId);
         model.addAttribute("reserves", reserves);
         model.addAttribute("reservesByRoom", reservesByRoom);
-        model.addAttribute("roomName", room.get().getRoomName() + " " + room.get().getBranch().getBranchName());
+        String floor = (room.get().getFloor() == C.FLOAT_FLOOR) ? C.FLOAT_TH : String.valueOf(room.get().getFloor());
+        model.addAttribute("roomName", room.get().getRoomName() + " " + room.get().getBranch().getBranchName()
+                + " ชั้น " + floor + " ห้องที่ " + room.get().getRoomNo());
 
         model.addAttribute("HORooms", roomMapByBranch.get(0L));
         model.addAttribute("RJRooms", roomMapByBranch.get(1L));

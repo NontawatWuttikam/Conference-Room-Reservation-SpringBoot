@@ -38,7 +38,6 @@
       var calendarEl = document.getElementById('calendar');
 
       var calendar = new FullCalendar.Calendar(calendarEl, {
-
         themeSystem: 'standard',
         headerToolbar: {
           left: 'prev,next today',
@@ -52,6 +51,7 @@
         navLinks: true, // can click day/week names to navigate views
         selectable: true,
         selectMirror: true,
+        
         // select: function(arg) {
         //   var title = prompt('Event Title:');
         //   if (title) {
@@ -74,7 +74,7 @@
 
           $('#c-title').html(arg.event.title)
           $('#c-date').html(arg.event.start.toTimeString().split(" ")[0] + " - " + arg.event.end.toTimeString().split(" ")[0])
-          $('#c-description').html(arg.event.extendedProps.description)
+          $('#c-description').html(arg.event.extendedProps.description.replace(/\n/g, '<br>\n'))
           $('#c-reserver').text("Reserver : " + arg.event.extendedProps.reserverName)
 
           if ($('#reserve-info-card').is(":visible")) {
@@ -85,7 +85,7 @@
 
 
         },
-        editable: true,
+        editable: false,
         dayMaxEvents: true, // allow "more" link when too many events
         events: events
       });

@@ -8,14 +8,19 @@
 
 <body>
     <form class="ui form">
+        <div style="display: table-cell; vertical-align:middle;">
+            <i class="calendar alternate outline large icon" style="display:inline-block; vertical-align: middle;"></i>
+            <h4 style="display: inline-block; vertical-align: middle;" >รายละเอียดการจอง</h4>
+        </div>
+        <div class="ui divider"></div>
         <div class="field">
             <label>Title</label>
             <input type="text" name="title" placeholder="What is the event?" id="reserve-title">
         </div>
         <div class="field">
             <label>Description</label>
-            <input type="text" name="description" placeholder="Describe the information a bit."
-                id="reserve-description">
+            <textarea name="description" placeholder="Describe the information a bit."
+                id="reserve-description"></textarea>
         </div>
         <div class="field">
             <label>Room To Reserve</label>
@@ -93,30 +98,26 @@
 
     $('#select')
         .dropdown();
+
+    var startDateTime_ = null
+    var endDateTime_ = null
+    var username = /*[[${username}]]*/ "";
+
     $('#rangestart').calendar({
         type: 'datetime',
         today: true,
         initialDate: null,
         disableYear: true,
-        endCalendar: $('#rangeend')
+        endCalendar: $('#rangeend'),
+        onChange: function (date, text) {
+            startDateTime_ = text;
+        }
     });
     $('#rangeend').calendar({
-        startCalendar: $('#rangestart')
-    });
-
-    var startDateTime = null
-    var endDateTime = null
-    var username = /*[[${username}]]*/ "";
-    $('#rangestart').calendar({
+        startCalendar: $('#rangestart'),
         onChange: function (date, text) {
-            startDateTime = text;
-        },
-    });
-
-    $('#rangeend').calendar({
-        onChange: function (date, text) {
-            endDateTime = text;
-        },
+            endDateTime_ = text;
+        }
     });
 
     function closemodal() {
@@ -134,8 +135,8 @@
         console.log(room)
         console.log(username)
 
-        startDateTime = startDateTime.replace(",", "")
-        endDateTime = endDateTime.replace(",", "")
+        var startDateTime = startDateTime_.replace(",", "")
+        var endDateTime = endDateTime_.replace(",", "")
 
         startDateTime = startDateTime.split(" ")
         endDateTime = endDateTime.split(" ")
