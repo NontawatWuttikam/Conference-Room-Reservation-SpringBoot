@@ -11,16 +11,21 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.cpe.conferenceRoomReserveApp.entity.Branch;
+import com.cpe.conferenceRoomReserveApp.entity.Building;
 import com.cpe.conferenceRoomReserveApp.entity.Reservation;
 import com.cpe.conferenceRoomReserveApp.entity.Room;
 import com.cpe.conferenceRoomReserveApp.entity.User;
 import com.cpe.conferenceRoomReserveApp.iclass.IReservationData;
 import com.cpe.conferenceRoomReserveApp.service.BranchService;
+import com.cpe.conferenceRoomReserveApp.service.BuildingService;
 import com.cpe.conferenceRoomReserveApp.service.ReservationService;
 import com.cpe.conferenceRoomReserveApp.service.RoomService;
 import com.cpe.conferenceRoomReserveApp.service.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -55,9 +60,18 @@ public class MainController {
     @Autowired
     UserService userService;
 
+    @Autowired
+    BuildingService buildingService;
+
     @RequestMapping("/login")
     public String login() {
         return "login";
+    }
+
+    @PostMapping("/selectbranch")
+    public ResponseEntity<List<Building>> selectBranchDropDown(Model model, String branchId) {
+        System.out.print("test");
+        return ResponseEntity.status(HttpStatus.OK).body(buildingService.getByBranchID(Long.parseLong(branchId)));
     }
 
     @RequestMapping("/login.html")
@@ -72,6 +86,8 @@ public class MainController {
         System.out.println(new BCryptPasswordEncoder().encode("password"));
 
         User user = userService.findByEmail(loggedInUser.getName());
+        List<Building> building = buildingService.getAll();
+
         List<Reservation> reserves = reservationService.getAll();
         Optional<Room> room = roomService.getRoomById(8L);
         List<Reservation> reservesByRoom = reservationService.getReservationByRoom(8L);
@@ -86,6 +102,9 @@ public class MainController {
         model.addAttribute("username", user.getFirstName() + " " + user.getLastName());
         model.addAttribute("userID", user.getId());
         model.addAttribute("branches", branches);
+
+        model.addAttribute("building", building);
+
         return "home";
     }
 
@@ -106,6 +125,7 @@ public class MainController {
         List<Reservation> reservesByRoom = reservationService.getReservationByRoom(roomId);
 
         User user = userService.findByEmail(loggedInUser.getName());
+        List<Building> building = buildingService.getAll();
 
         Optional<Room> room = roomService.getRoomById(roomId);
         model.addAttribute("reserves", reserves);
@@ -120,6 +140,8 @@ public class MainController {
         model.addAttribute("username", user.getFirstName() + " " + user.getLastName());
         model.addAttribute("userID", user.getId());
         model.addAttribute("branches", branches);
+
+        model.addAttribute("building", building);
         return "home";
     }
 

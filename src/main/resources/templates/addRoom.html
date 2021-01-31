@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" th:fragment="addPanel">
+<html xmlns:th="http://www.thymeleaf.org" th:fragment="addRoom">
 
 <head>
     <link rel="stylesheet" type="text/css" href="semantic/dist/semantic.min.css">
@@ -9,79 +9,45 @@
 <body>
     <form class="ui form">
         <div style="display: table-cell; vertical-align:middle;">
-            <i class="calendar alternate outline large icon" style="display:inline-block; vertical-align: middle;"></i>
-            <h4 style="display: inline-block; vertical-align: middle;" >รายละเอียดการจอง</h4>
+            <i class="plus square outline large icon" style="display:inline-block; vertical-align: middle;"></i>
+            <h4 style="display: inline-block; vertical-align: middle;">เพิ่มห้องประชุม</h4>
         </div>
         <div class="ui divider"></div>
         <div class="field">
-            <label>Title</label>
-            <input type="text" name="title" placeholder="What is the event?" id="reserve-title">
+            <label>ชื่อห้อง</label>
+            <input type="text" name="title" placeholder="What is the room called" id="room-title">
         </div>
         <div class="field">
-            <label>Description</label>
-            <textarea name="description" placeholder="Describe the information a bit."
-                id="reserve-description"></textarea>
-        </div>
-        <div class="field">
-            <label>Room To Reserve</label>
-            <select name="gender" class="ui dropdown" id="selectReserve">
-                <h th:each="HOroom : ${HORooms}">
-                    <option th:value="${HOroom.roomID}" th:text="${HOroom.roomName + ' - ' + HOroom.branch.branchName}">
-                    </option>
-                </h>
-                <h th:each="RJroom : ${RJRooms}">
-                    <option th:value="${RJroom.roomID}" th:text="${RJroom.roomName + ' - ' + RJroom.branch.branchName}">
+            <label>สาขา</label>
+            <select class="ui dropdown" id="selectAddRoom" onchange="selectBranch()">
+                <h th:each="branch : ${branches}">
+                    <option onclick="selectBranch()" th:value="${branch.branchID}" th:text="${branch.branchName}">
                     </option>
                 </h>
             </select>
         </div>
         <div class="field">
-            <label>Select Period</label>
-            <div class="ui form">
-                <div class="two fields">
-                    <div class="field">
-                        <label>Start date</label>
-                        <div class="ui calendar" id="rangestart">
-                            <div class="ui input left icon">
-                                <i class="calendar icon"></i>
-                                <input type="text" placeholder="Start">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="field">
-                        <label>End date</label>
-                        <div class="ui calendar" id="rangeend">
-                            <div class="ui input left icon">
-                                <i class="calendar icon"></i>
-                                <input type="text" placeholder="End">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <label>อาคาร</label>
+            <select class="ui dropdown" id="addRoomBuildingDropdown">
+            </select>
         </div>
         <div class="field">
-            <label style="display: inline-block; font-size: medium; color: gray;">Reserver : </label>
-            <label th:text="${username}" style="display: inline-block; font-size: medium; color: gray;"></label>
+            <label>ชั้นที่</label>
+            <input type="text" name="title" placeholder="..." id="room-floor">
         </div>
         <div style="padding-bottom: 10px;">
     </form>
-    <button type="button" class="ui green button" id="reserveBtn">Reserve</button>
-    <button type="button" class="ui red button" id="cancelReserve" onclick="closeReserveModal()">Cancel</button>
+    <button type="button" class="ui green button" id="addRoomBtn">Reserve</button>
+    <button type="button" class="ui red button" id="cancelAddRoom" onclick="closeAddRoomModal()">Cancel</button>
 </body>
 
 <script src="https://code.jquery.com/jquery-3.1.1.min.js"
     integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
-<script src="semantic/dist/semantic.min.js"></script>
-
-<script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
-<script src="jquery-3.5.1.min.js"></script>
 <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 
 <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
-<script src="https://code.jquery.com/jquery-2.1.4.js"></script>
 <script
     src="https://cdn.rawgit.com/mdehoog/Semantic-UI/6e6d051d47b598ebab05857545f242caf2b4b48c/dist/semantic.min.js"></script>
 
@@ -90,46 +56,46 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment-range/3.0.3/moment-range.min.js"></script>
-
 <script th:inline="javascript">
+    $('#selectAddRoom')
+        .dropdown({ placeholder: "กรุณาเลือกสาขา" }).dropdown('clear');
 
-    var reserveBtn = $('#reserveBtn')[0]
-    console.log("nani", reserveBtn)
+    $('#addRoomBuildingDropdown')
+        .dropdown({ placeholder: "กรุณาเลือกอาคาร" });
 
-    $('#selectReserve')
-        .dropdown();
 
-    var startDateTime_ = null
-    var endDateTime_ = null
-    var userId = /*[[${userID}]]*/ "";
-
-    $('#rangestart').calendar({
-        type: 'datetime',
-        today: true,
-        initialDate: null,
-        disableYear: true,
-        endCalendar: $('#rangeend'),
-        onChange: function (date, text) {
-            startDateTime_ = text;
-        }
-    });
-    $('#rangeend').calendar({
-        startCalendar: $('#rangestart'),
-        onChange: function (date, text) {
-            endDateTime_ = text;
-        }
-    });
-
-    function closeReserveModal() {
+    addRoomBuildingDropdown = $('#addRoomBuildingDropdown')
+    function closeAddRoomModal() {
         console.log("test")
-        reserveModal.style.display = "none";
+        addRoomModal.style.display = "none";
+    }
+    function selectBranch() {
+        console.log("select Branch")
+        var jqxhr = $.post("/selectbranch", {
+            branchId: $('#selectAddRoom').val()
+        }, function (data) {
+            console.log(data)
+            // $('#addRoomBuildingDropdown').attr('class', 'ui dropdown')
+            $('#addRoomBuildingDropdown').empty()
+            for (var i = 0; i < data.length; i++) {
+                $('#addRoomBuildingDropdown').append(new Option(data[i].buildingName, data[i].buildingID))
+            }
+            // $('#addRoomBuildingDropdown').dropdown('set selected',data[0].buildingName)
+            addRoomBuildingDropdown.dropdown('set text', data[0].buildingName)
+            // $("#addRoomBuildingDropdown").val($("#target option:first").val());
+        })
+            .done(function () {
+
+            })
+            .fail(function () {
+
+            })
     }
 
-    reserveBtn.onclick = () => {
-        console.log("reserve click!")
-        var title = $('#reserve-title').val()
-        var description = $('#reserve-description').val()
-        var room = $('#selectReserve').val()
+    addRoomBtn.onclick = () => {
+        var title = $('#room-title').val()
+        var buildingId = $('#selectAddRoom').val()
+        var branchId = $('#addRoomBuildingDropdown').val()
         console.log(title)
         console.log(description)
         console.log(room)
@@ -145,10 +111,10 @@
 
         var timePeroids = []
         var datas = /*[[${reserves}]]*/[];
-        datas = datas.filter( (x) => {
+        datas = datas.filter((x) => {
             return x.roomID === parseInt(room)
         })
-        console.log("datas",datas)
+        console.log("datas", datas)
         var months = [
             'January',
             'February',
@@ -183,7 +149,7 @@
 
         function isOverlapTime(timeSegments) {
 
-            timeSegments.sort((a,b) => {
+            timeSegments.sort((a, b) => {
                 return parseInt(a[0].split(":")[0]) - parseInt(b[0].split(":")[0])
             })
             let ret = false;
@@ -191,7 +157,7 @@
             while (!ret && i < timeSegments.length - 1) {
                 let seg1 = timeSegments[i];
                 let seg2 = timeSegments[i + 1];
-                console.log(i,seg1,seg2)
+                console.log(i, seg1, seg2)
                 let range1 = moment.range(moment(seg1[0], 'HH:mm'), moment(seg1[1], 'HH:mm'));
                 let range2 = moment.range(moment(seg2[0], 'HH:mm'), moment(seg2[1], 'HH:mm'));
                 if (range1.overlaps(range2)) {
@@ -239,35 +205,11 @@
         var isOverlapTimes = isOverlapTime(timePeroids)
         console.log(isOverlapTimes)
         if (!isOverlapTimes) {
-            var jqxhr = $.post("/reserveroom", {
-                title: title,
-                description: description,
-                room: room,
-                userId: parseInt(userId),
-                startDateTime: startDateTime,
-                endDateTime: endDateTime
-            }, function (tests) {
 
-            })
-                .done(function () {
-                    alert("Reserve Successfully");
-                    window.location.reload(false); 
-                })
-                .fail(function () {
-                    console.log({
-                title: title,
-                description: description,
-                room: room,
-                userId: userId,
-                startDateTime: startDateTime,
-                endDateTime: endDateTime
-            })
-                    alert("Unknown Error (STATUS 500)");
-                })
         }
 
         else {
-            
+
             alert("Your selected time range is busy for this room")
         }
         // Perform other work here ...
@@ -277,5 +219,6 @@
 
 
 </script>
+
 
 </html>

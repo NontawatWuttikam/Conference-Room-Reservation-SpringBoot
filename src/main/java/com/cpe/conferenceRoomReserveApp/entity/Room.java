@@ -6,6 +6,8 @@ import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import org.springframework.boot.autoconfigure.info.ProjectInfoProperties.Build;
+
 @Entity
 @Table(name = "ROOM")
 @Data
@@ -18,29 +20,30 @@ public class Room {
     @Column(name = "ROOMNAME")
     private String roomName;
 
-    @Column(name = "BUILDING")
-    private String building;
+    @Column(name = "BUILDINGID")
+    private Long buildingID;
+
+    @ManyToOne
+    @JsonProperty("building")
+    @JoinColumn(name = "BUILDINGID", insertable = false, updatable = false)
+    private Building building;
 
     @Column(name = "FLOOR")
     private int floor;
 
-    @Column(name = "BRANCHID")
-    private long branchID;
-
     @Column(name = "ROOMNO")
     private int roomNo;
 
-    @ManyToOne
-    @JsonProperty("branch")
-    @JoinColumn(name = "BRANCHID", insertable = false, updatable = false)
-    private Branch branch;
-
-    public Branch getBranch() {
-        return this.branch;
+    public Building getBuilding() {
+        return this.building;
     }
 
-    public void setBranch(Branch branch) {
-        this.branch = branch;
+    public void setBuilding(Building branch) {
+        this.building = branch;
+    }
+
+    public Branch getBranch() {
+        return this.building.getBranch();
     }
 
     public long getRoomID() {
@@ -59,12 +62,12 @@ public class Room {
         this.roomName = roomName;
     }
 
-    public String getBuilding() {
-        return this.building;
+    public Long getBuildingId() {
+        return this.buildingID;
     }
 
-    public void setBuilding(String building) {
-        this.building = building;
+    public void setBuildingId(Long buildingID) {
+        this.buildingID = buildingID;
     }
 
     public int getFloor() {
@@ -76,11 +79,11 @@ public class Room {
     }
 
     public long getBranchID() {
-        return this.branchID;
+        return this.building.getBranchID();
     }
 
     public void setBranchID(long branchID) {
-        this.branchID = branchID;
+        this.building.setBranchID(branchID);
     }
 
     public int getRoomNo() {

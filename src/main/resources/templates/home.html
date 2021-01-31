@@ -61,10 +61,16 @@
 
 <body>
     <nav th:include="navbar :: navbar(${username})"></nav>
-    <div id="myModal" class="modal">
+    <div id="reserveModal" class="modal">
         <!-- Modal content -->
         <div class="modal-content">
             <nav th:include="addPanel :: addPanel"></nav>
+        </div>
+    </div>
+    <div id="addRoomModal" class="modal">
+        <!-- Modal content -->
+        <div class="modal-content">
+            <nav th:include="addRoom :: addRoom"></nav>
         </div>
     </div>
     <div>
@@ -123,29 +129,42 @@
 
 <script th:inline="javascript">
     // Get the modal
-    var modal = document.getElementById("myModal");
+    var reserveModal = document.getElementById("reserveModal");
+    var addRoomModal = document.getElementById("addRoomModal");
+
+    console.log(reserveModal)
+    console.log(reserveModal)
 
     // Get the button that opens the modal
-    var btn = document.getElementById("reserve");
+    var reserveBtn = document.getElementById("reserve");
+    var addRoomBtn = document.getElementById("addRoom");
 
     // Get the <span> element that closes the modal
     var span = document.getElementsByClassName("close")[0];
 
-    var cancelBtn = document.getElementById("cancel");
+    var cancelReserveBtn = document.getElementById("cancelReserve");
+    var cancelAddRoomBtn = document.getElementById("cancelAddRoom");
 
-    console.log(cancelBtn)
     // When the user clicks the button, open the modal 
-    btn.onclick = function () {
-        modal.style.display = "block";
+    reserveBtn.onclick = function () {
+        reserveModal.style.display = "block";
+    }
+
+    addRoomBtn.onclick = function () {
+        addRoomModal.style.display = "block";
     }
 
     // When the user clicks on <span> (x), close the modal
-    span.onclick = function () {
-        modal.style.display = "none";
-    }
 
-    cancelBtn.onclick = function () {
-        console.log("click")
-        modal.style.display = "none";
-    }
+    // cancelReserveBtn.onclick = function () {
+    //     console.log("click")
+    //     reserveModal.style.display = "none";
+
+    // }
+
+    // cancelAddRoomBtn.onclick = function () {
+    //     console.log("click")
+    //     addRoomModal.style.display = "none";
+
+    // }
 </script>
