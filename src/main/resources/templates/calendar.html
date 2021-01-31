@@ -51,7 +51,7 @@
         navLinks: true, // can click day/week names to navigate views
         selectable: true,
         selectMirror: true,
-        
+
         // select: function(arg) {
         //   var title = prompt('Event Title:');
         //   if (title) {
@@ -182,11 +182,13 @@
       <div class="ui fluid card ">
 
         <div class="content v">
-          <div class="ui middle aligned fluid card">
-            <div class="content vertical-center" style="display: table-cell; vertical-align:middle; display: flex;
-">
-              <i style="display:inline-block; vertical-align: middle;" class=" building big icon"></i>
+          <div class="ui fluid card">
+            <div class="content vertical-center" style="display: table-cell; vertical-align:middle;">
+              <i style="display:inline-block; vertical-align: middle; display:inline-table;" class=" building big icon"></i>
               <h2 class="ui header" style="display:inline-block;" th:text="${roomName}"></h2>
+              <h3 class="right floated ui header" style="display:inline-block; text-align: right;"
+                th:text="${maxPeople}">
+                </h3>
             </div>
           </div>
           <div>

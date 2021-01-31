@@ -29,8 +29,8 @@ public class Room {
     @Column(name = "FLOOR")
     private int floor;
 
-    @Column(name = "ROOMNO")
-    private int roomNo;
+    @Column(name = "MAXPEOPLE")
+    private int maxPeople;
 
     public Building getBuilding() {
         return this.building;
@@ -84,12 +84,12 @@ public class Room {
         this.building.setBranchID(branchID);
     }
 
-    public int getRoomNo() {
-        return this.roomNo;
+    public int getMaxPeople() {
+        return this.maxPeople;
     }
 
-    public void setRoomNo(int roomNo) {
-        this.roomNo = roomNo;
+    public void setMaxPeople(int roomNo) {
+        this.maxPeople = roomNo;
     }
 
 }

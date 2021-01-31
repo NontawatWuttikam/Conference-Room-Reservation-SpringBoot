@@ -90,7 +90,7 @@
                                 <i class="caret right small icon"
                                     style="display:inline-block; vertical-align: middle;"></i>
                                 <a class="item" th:href="@{/room/{roomid}(roomid = ${HOroom.roomID})}"
-                                    th:text="${HOroom.roomName + ' (' + HOroom.roomNo + ')'}"
+                                    th:text="${HOroom.roomName}"
                                     style="display:inline-block; vertical-align: middle; color:  rgb(216, 17, 98);">
                                     /br</a>
                             </h3>
@@ -104,7 +104,7 @@
                                     <i class="caret right small icon"
                                         style="display:inline-block; vertical-align: middle;"></i>
                                     <a class="item" th:href="@{/room/{roomid}(roomid = ${RJroom.roomID})}"
-                                        th:text="${RJroom.roomName + ' (' + RJroom.roomNo + ')'}"
+                                        th:text="${RJroom.roomName}"
                                         style="display:inline-block; vertical-align: middle; color:  rgb(216, 17, 98);">
                                         /br</a>
                                 </h3>

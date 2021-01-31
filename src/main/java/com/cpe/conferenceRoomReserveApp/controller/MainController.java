@@ -94,8 +94,9 @@ public class MainController {
         Optional<Room> room = roomService.getRoomById(8L);
         List<Reservation> reservesByRoom = reservationService.getReservationByRoom(8L);
         String floor = (room.get().getFloor() == C.FLOAT_FLOOR) ? C.FLOAT_TH : String.valueOf(room.get().getFloor());
-        model.addAttribute("roomName", room.get().getRoomName() + " " + room.get().getBranch().getBranchName()
-                + " ชั้น " + floor + " ห้องที่ " + room.get().getRoomNo());
+        model.addAttribute("roomName", room.get().getRoomName() + " " + room.get().getBranch().getBranchName() + " "
+                + room.get().getBuilding().getBuildingName() + " " + " ชั้น " + floor);
+        model.addAttribute("maxPeople", " จำนวนคนสูงสุด " + room.get().getMaxPeople() + " คน");
         model.addAttribute("reserves", reserves);
         model.addAttribute("reservesByRoom", reservesByRoom);
         model.addAttribute("selectedRoom", room);
@@ -133,8 +134,9 @@ public class MainController {
         model.addAttribute("reserves", reserves);
         model.addAttribute("reservesByRoom", reservesByRoom);
         String floor = (room.get().getFloor() == C.FLOAT_FLOOR) ? C.FLOAT_TH : String.valueOf(room.get().getFloor());
-        model.addAttribute("roomName", room.get().getRoomName() + " " + room.get().getBranch().getBranchName()
-                + " ชั้น " + floor + " ห้องที่ " + room.get().getRoomNo());
+        model.addAttribute("roomName", room.get().getRoomName() + " " + room.get().getBranch().getBranchName() + " "
+                + room.get().getBuilding().getBuildingName() + " " + " ชั้น " + floor);
+        model.addAttribute("maxPeople", " จำนวนคนสูงสุด " + room.get().getMaxPeople() + " คน");
 
         model.addAttribute("HORooms", roomMapByBranch.get(0L));
         model.addAttribute("RJRooms", roomMapByBranch.get(1L));
@@ -218,7 +220,7 @@ public class MainController {
         room.setBuildingId(Long.parseLong(iAddRoom.getBuildingId()));
         room.setFloor(Integer.parseInt(iAddRoom.getFloorNo()));
         room.setRoomName(iAddRoom.getTitle());
-        room.setRoomNo(Integer.parseInt(iAddRoom.getMaxPeople()));
+        room.setMaxPeople(Integer.parseInt(iAddRoom.getMaxPeople()));
         roomService.addRoom(room);
         return "home";
     }
