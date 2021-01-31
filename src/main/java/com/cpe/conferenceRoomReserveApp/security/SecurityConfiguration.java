@@ -25,6 +25,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .defaultSuccessUrl("/login.html", true).and().logout().invalidateHttpSession(true)
                 .clearAuthentication(true).logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                 .logoutSuccessUrl("/login?logout").permitAll();
+        http.csrf().disable();
     }
 
     @Bean

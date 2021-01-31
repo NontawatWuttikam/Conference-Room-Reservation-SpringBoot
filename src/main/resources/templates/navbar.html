@@ -49,6 +49,8 @@
 <script src="semantic/dist/semantic.min.js"></script>
 
 <script language"javascript">
+    var user = /*[[${username}]]*/ {};
+    console.log(user)
     function logout() {
         var jqxhr = $.get("/logout", function (tests) {
 

@@ -101,7 +101,7 @@
 
     var startDateTime_ = null
     var endDateTime_ = null
-    var username = /*[[${username}]]*/ "";
+    var userId = /*[[${userID}]]*/ "";
 
     $('#rangestart').calendar({
         type: 'datetime',
@@ -133,7 +133,6 @@
         console.log(title)
         console.log(description)
         console.log(room)
-        console.log(username)
 
         var startDateTime = startDateTime_.replace(",", "")
         var endDateTime = endDateTime_.replace(",", "")
@@ -244,7 +243,7 @@
                 title: title,
                 description: description,
                 room: room,
-                username: username,
+                userId: parseInt(userId),
                 startDateTime: startDateTime,
                 endDateTime: endDateTime
             }, function (tests) {
@@ -255,6 +254,14 @@
                     window.location.reload(false); 
                 })
                 .fail(function () {
+                    console.log({
+                title: title,
+                description: description,
+                room: room,
+                userId: userId,
+                startDateTime: startDateTime,
+                endDateTime: endDateTime
+            })
                     alert("Unknown Error (STATUS 500)");
                 })
         }

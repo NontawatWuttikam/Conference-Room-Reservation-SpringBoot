@@ -36,7 +36,7 @@ public class Reservation {
     @ManyToOne
     @JsonProperty("reserver")
     @JoinColumn(name = "RESERVERID", insertable = false, updatable = false)
-    private Staff reserver;
+    private User reserver;
 
     @ManyToOne
     @JsonProperty("room")
@@ -103,11 +103,11 @@ public class Reservation {
         this.endDateTime = endDateTime;
     }
 
-    public Staff getReserver() {
+    public User getReserver() {
         return this.reserver;
     }
 
-    public void setReserver(Staff reserver) {
+    public void setReserver(User reserver) {
         this.reserver = reserver;
     }
 

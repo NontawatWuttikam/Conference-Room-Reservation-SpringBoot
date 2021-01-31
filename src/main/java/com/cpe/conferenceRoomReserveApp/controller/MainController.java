@@ -13,17 +13,18 @@ import javax.servlet.http.HttpServletResponse;
 import com.cpe.conferenceRoomReserveApp.entity.Branch;
 import com.cpe.conferenceRoomReserveApp.entity.Reservation;
 import com.cpe.conferenceRoomReserveApp.entity.Room;
-import com.cpe.conferenceRoomReserveApp.entity.Staff;
+import com.cpe.conferenceRoomReserveApp.entity.User;
 import com.cpe.conferenceRoomReserveApp.iclass.IReservationData;
 import com.cpe.conferenceRoomReserveApp.service.BranchService;
 import com.cpe.conferenceRoomReserveApp.service.ReservationService;
 import com.cpe.conferenceRoomReserveApp.service.RoomService;
-import com.cpe.conferenceRoomReserveApp.service.StaffService;
+import com.cpe.conferenceRoomReserveApp.service.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
@@ -52,7 +53,7 @@ public class MainController {
     ReservationService reservationService;
 
     @Autowired
-    StaffService staffService;
+    UserService userService;
 
     @RequestMapping("/login")
     public String login() {
@@ -70,6 +71,7 @@ public class MainController {
 
         System.out.println(new BCryptPasswordEncoder().encode("password"));
 
+        User user = userService.findByEmail(loggedInUser.getName());
         List<Reservation> reserves = reservationService.getAll();
         Optional<Room> room = roomService.getRoomById(8L);
         List<Reservation> reservesByRoom = reservationService.getReservationByRoom(8L);
@@ -81,14 +83,17 @@ public class MainController {
         model.addAttribute("selectedRoom", room);
         model.addAttribute("HORooms", roomMapByBranch.get(0L));
         model.addAttribute("RJRooms", roomMapByBranch.get(1L));
-        model.addAttribute("username", loggedInUser.getName());
+        model.addAttribute("username", user.getFirstName() + " " + user.getLastName());
+        model.addAttribute("userID", user.getId());
         model.addAttribute("branches", branches);
         return "home";
     }
 
     @RequestMapping("/room/{rid}")
     public String getBranch(Model model, @PathVariable("rid") Long roomId) {
+
         Authentication loggedInUser = SecurityContextHolder.getContext().getAuthentication();
+
         List<Branch> branches = branchService.getAllBranch();
         List<Room> rooms = roomService.getAllRoom();
         Map<Long, List<Room>> roomMapByBranch = rooms.stream().collect(Collectors.groupingBy(Room::getBranchID));
@@ -99,6 +104,9 @@ public class MainController {
         ;
 
         List<Reservation> reservesByRoom = reservationService.getReservationByRoom(roomId);
+
+        User user = userService.findByEmail(loggedInUser.getName());
+
         Optional<Room> room = roomService.getRoomById(roomId);
         model.addAttribute("reserves", reserves);
         model.addAttribute("reservesByRoom", reservesByRoom);
@@ -109,7 +117,8 @@ public class MainController {
         model.addAttribute("HORooms", roomMapByBranch.get(0L));
         model.addAttribute("RJRooms", roomMapByBranch.get(1L));
 
-        model.addAttribute("username", loggedInUser.getName());
+        model.addAttribute("username", user.getFirstName() + " " + user.getLastName());
+        model.addAttribute("userID", user.getId());
         model.addAttribute("branches", branches);
         return "home";
     }
@@ -170,9 +179,7 @@ public class MainController {
         reserve.setStartDateTime(startDateTime);
         reserve.setEndDateTime(endDateTime);
 
-        Optional<Staff> staffInfo = staffService.getStaffByName(iReservationData.getUsername());
-
-        reserve.setReserverID(staffInfo.get().getStaffID());
+        reserve.setReserverID(Integer.parseInt(iReservationData.getUserId()));
 
         System.out.println(reserve);
 

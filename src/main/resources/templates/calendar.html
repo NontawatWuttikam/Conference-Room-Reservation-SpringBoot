@@ -29,7 +29,7 @@
         end: datas[i].endDateTime,
         extendedProps: {
           description: datas[i].description,
-          reserverName: datas[i].reserver.staffName,
+          reserverName: datas[i].reserver.firstName + " " + datas[i].reserver.lastName,
           roomName: datas[i].room.roomName
         }
       })
