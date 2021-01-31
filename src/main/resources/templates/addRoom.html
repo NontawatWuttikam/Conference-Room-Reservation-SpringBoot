@@ -19,7 +19,7 @@
         </div>
         <div class="field">
             <label>สาขา</label>
-            <select class="ui dropdown" id="selectAddRoom" onchange="selectBranch()">
+            <select class="ui dropdown" id="selectAddRoomBranch" onchange="selectBranch()">
                 <h th:each="branch : ${branches}">
                     <option onclick="selectBranch()" th:value="${branch.branchID}" th:text="${branch.branchName}">
                     </option>
@@ -33,7 +33,11 @@
         </div>
         <div class="field">
             <label>ชั้นที่</label>
-            <input type="text" name="title" placeholder="..." id="room-floor">
+            <input type="text" placeholder="..." id="room-floor">
+        </div>
+        <div class="field">
+            <label>จำนวนคนสูงสุดต่อห้อง</label>
+            <input type="text" placeholder="..." id="room-maxPeople">
         </div>
         <div style="padding-bottom: 10px;">
     </form>
@@ -57,7 +61,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment-range/3.0.3/moment-range.min.js"></script>
 <script th:inline="javascript">
-    $('#selectAddRoom')
+    $('#selectAddRoomBranch')
         .dropdown({ placeholder: "กรุณาเลือกสาขา" }).dropdown('clear');
 
     $('#addRoomBuildingDropdown')
@@ -72,7 +76,7 @@
     function selectBranch() {
         console.log("select Branch")
         var jqxhr = $.post("/selectbranch", {
-            branchId: $('#selectAddRoom').val()
+            branchId: $('#selectAddRoomBranch').val()
         }, function (data) {
             console.log(data)
             // $('#addRoomBuildingDropdown').attr('class', 'ui dropdown')
@@ -84,137 +88,62 @@
             addRoomBuildingDropdown.dropdown('set text', data[0].buildingName)
             // $("#addRoomBuildingDropdown").val($("#target option:first").val());
         })
-            .done(function () {
-
-            })
-            .fail(function () {
-
-            })
     }
 
     addRoomBtn.onclick = () => {
         var title = $('#room-title').val()
-        var buildingId = $('#selectAddRoom').val()
-        var branchId = $('#addRoomBuildingDropdown').val()
-        console.log(title)
-        console.log(description)
-        console.log(room)
+        var branchId = $('#selectAddRoomBranch').val()
+        var buildingId = $('#addRoomBuildingDropdown').val()
+        var floorNo = $('#room-floor').val()
+        var maxPeople = $('#room-maxPeople').val()
 
-        var startDateTime = startDateTime_.replace(",", "")
-        var endDateTime = endDateTime_.replace(",", "")
-
-        startDateTime = startDateTime.split(" ")
-        endDateTime = endDateTime.split(" ")
-
-        console.log(startDateTime)
-        console.log(endDateTime)
-
-        var timePeroids = []
-        var datas = /*[[${reserves}]]*/[];
-        datas = datas.filter((x) => {
-            return x.roomID === parseInt(room)
-        })
-        console.log("datas", datas)
-        var months = [
-            'January',
-            'February',
-            'March',
-            'April',
-            'May',
-            'June',
-            'July',
-            'August',
-            'September',
-            'October',
-            'November',
-            'December'
-        ];
-
-        function shiftTime(timestr, shiftstr) {
-            timestr_s = timestr.split(":")
-            if (shiftstr.toLowerCase() === "am") {
-                if (timestr_s[0] === "12") return "0" + ":" + timestr_s[1]
-                return timestr
-            }
-            else {
-                if (timestr_s[0] === "12") return timestr
-                else {
-                    return (parseInt(timestr_s[0]) + 12) + ":" + timestr_s[1]
-                }
-            }
-            return timestr
+        if (floorNo === "") {
+            alert("Field ชั้นที่ Must not be blank")
+            return
         }
-
-        window['moment-range'].extendMoment(moment);
-
-        function isOverlapTime(timeSegments) {
-
-            timeSegments.sort((a, b) => {
-                return parseInt(a[0].split(":")[0]) - parseInt(b[0].split(":")[0])
-            })
-            let ret = false;
-            let i = 0;
-            while (!ret && i < timeSegments.length - 1) {
-                let seg1 = timeSegments[i];
-                let seg2 = timeSegments[i + 1];
-                console.log(i, seg1, seg2)
-                let range1 = moment.range(moment(seg1[0], 'HH:mm'), moment(seg1[1], 'HH:mm'));
-                let range2 = moment.range(moment(seg2[0], 'HH:mm'), moment(seg2[1], 'HH:mm'));
-                if (range1.overlaps(range2)) {
-                    ret = true;
-                }
-                i++;
-            }
-            return ret;
+        else if (isNaN(floorNo)) {
+            alert("Field ชั้นที่ Must be a number")
+            return
         }
-        var TIME_INDEX = 3;
-        var YEAR_INDEX = 2;
-        var DAY_INDEX = 1;
-        var MONTH_INDEX = 0;
-        var SHIFT_INDEX = 4
-        for (var i = 0; i < datas.length; i++) {
-            console.log(datas[i])
-            startdate = new Date(datas[i].startDateTime)
-            enddate = new Date(datas[i].endDateTime)
-            // console.log(startdate.getFullYear().toString())
-            // console.log(startDateTime[YEAR_INDEX])
-            // console.log(startdate.getMonth())
-            // console.log(months.indexOf(startDateTime[MONTH_INDEX]))
-            // console.log(startdate.getDate().toString())
-            // console.log(startDateTime[DAY_INDEX].toString())
-            var isSameDate = startdate.getFullYear().toString() === startDateTime[YEAR_INDEX] &
-                startdate.getMonth() == (months.indexOf(startDateTime[MONTH_INDEX])) & startdate.getDate().toString() === startDateTime[DAY_INDEX].toString()
-            if (isSameDate) {
-                var startmin = startdate.getMinutes().toString()
-                var endmin = enddate.getMinutes().toString()
-                if (startmin.length == 1) {
-                    startmin = "0" + startmin
-                }
-                if (endmin.length == 1) {
-                    endmin = "0" + startmin
-                }
-                startTimeStr = startdate.getHours().toString() + ':' + startmin
-                endTimeStr = enddate.getHours().toString() + ':' + endmin
-                timePeroids.push([startTimeStr, endTimeStr])
-            }
-
+        else if (title === "") {
+            alert("Field title Must not be blank")
+            return
         }
-
-        timePeroids.push([shiftTime(startDateTime[TIME_INDEX], startDateTime[SHIFT_INDEX]), shiftTime(endDateTime[TIME_INDEX], endDateTime[SHIFT_INDEX])])
-        console.log(timePeroids)
-        var isOverlapTimes = isOverlapTime(timePeroids)
-        console.log(isOverlapTimes)
-        if (!isOverlapTimes) {
-
+        else if (branchId === "") {
+            alert("Field สาขา Must not be blank")
+            return
         }
-
+        else if (buildingId === "") {
+            alert("Field อาคาร Must not be blank")
+            return
+        }
+        else if (maxPeople === "") {
+            alert("Field จำนวนคนสูงสุดต่อห้อง Must not be blank")
+            return
+        }
+        else if (isNaN(maxPeople)) {
+            alert("Field จำนวนคนสูงสุดต่อห้อง Must be a number")
+            return
+        }
         else {
+            var jqxhr = $.post("/addroom", {
+                title: title,
+                branchId: branchId,
+                buildingId: buildingId,
+                floorNo: floorNo,
+                maxPeople: maxPeople
+            }, function (data) {
 
-            alert("Your selected time range is busy for this room")
+            })
+                .done(function () {
+                    alert("Add A Room Successfully");
+                    window.location.reload(false);
+                })
+                .fail(function () {
+
+                })
         }
-        // Perform other work here ...
 
-        // Set another completion function for the request above
     }
 
 

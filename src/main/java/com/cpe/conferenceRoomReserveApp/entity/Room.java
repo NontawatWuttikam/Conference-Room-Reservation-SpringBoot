@@ -6,8 +6,6 @@ import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import org.springframework.boot.autoconfigure.info.ProjectInfoProperties.Build;
-
 @Entity
 @Table(name = "ROOM")
 @Data

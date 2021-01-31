@@ -15,7 +15,9 @@ import com.cpe.conferenceRoomReserveApp.entity.Building;
 import com.cpe.conferenceRoomReserveApp.entity.Reservation;
 import com.cpe.conferenceRoomReserveApp.entity.Room;
 import com.cpe.conferenceRoomReserveApp.entity.User;
+import com.cpe.conferenceRoomReserveApp.iclass.IAddRoom;
 import com.cpe.conferenceRoomReserveApp.iclass.IReservationData;
+import com.cpe.conferenceRoomReserveApp.repository.RoomRepository;
 import com.cpe.conferenceRoomReserveApp.service.BranchService;
 import com.cpe.conferenceRoomReserveApp.service.BuildingService;
 import com.cpe.conferenceRoomReserveApp.service.ReservationService;
@@ -207,6 +209,17 @@ public class MainController {
 
         reservationService.createReservation(reserve);
 
+        return "home";
+    }
+
+    @PostMapping("/addroom")
+    public String addRoom(Model model, IAddRoom iAddRoom) {
+        Room room = new Room();
+        room.setBuildingId(Long.parseLong(iAddRoom.getBuildingId()));
+        room.setFloor(Integer.parseInt(iAddRoom.getFloorNo()));
+        room.setRoomName(iAddRoom.getTitle());
+        room.setRoomNo(Integer.parseInt(iAddRoom.getMaxPeople()));
+        roomService.addRoom(room);
         return "home";
     }
 
