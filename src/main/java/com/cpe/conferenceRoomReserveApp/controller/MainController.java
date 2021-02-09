@@ -76,7 +76,7 @@ public class MainController {
         return ResponseEntity.status(HttpStatus.OK).body(buildingService.getByBranchID(Long.parseLong(branchId)));
     }
 
-    @RequestMapping("/login.html")
+    @RequestMapping("/home")
     public String login(Model model) {
 
         Authentication loggedInUser = SecurityContextHolder.getContext().getAuthentication();

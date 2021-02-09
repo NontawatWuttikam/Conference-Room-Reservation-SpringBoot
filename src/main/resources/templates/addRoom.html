@@ -41,7 +41,7 @@
         </div>
         <div style="padding-bottom: 10px;">
     </form>
-    <button type="button" class="ui green button" id="addRoomBtn">Reserve</button>
+    <button type="button" class="ui green button" id="addRoomBtn">เพิ่มห้องประชุม</button>
     <button type="button" class="ui red button" id="cancelAddRoom" onclick="closeAddRoomModal()">Cancel</button>
 </body>
 
@@ -105,6 +105,10 @@
             alert("Field ชั้นที่ Must be a number")
             return
         }
+        else if (parseInt(floorNo) < 1 | !Number.isInteger(parseInt(floorNo))) {
+            alert("Field ชั้นที่ Must be a positive integer")
+            return
+        }
         else if (title === "") {
             alert("Field title Must not be blank")
             return
@@ -123,6 +127,10 @@
         }
         else if (isNaN(maxPeople)) {
             alert("Field จำนวนคนสูงสุดต่อห้อง Must be a number")
+            return
+        }
+        else if (parseInt(maxPeople) < 1 | !Number.isInteger(parseInt(maxPeople))) {
+            alert("Field จำนวนคนสูงสุดต่อห้อง Must be a positive integer")
             return
         }
         else {

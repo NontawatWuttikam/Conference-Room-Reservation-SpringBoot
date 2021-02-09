@@ -72,8 +72,10 @@
           console.log(arg.event.extendedProps.reserverName)
           console.log(arg.event.extendedProps.roomName)
 
+          var star_t = arg.event.start.toTimeString().split(" ")[0]
+          var en_d = arg.event.end.toTimeString().split(" ")[0]
           $('#c-title').html(arg.event.title)
-          $('#c-date').html(arg.event.start.toTimeString().split(" ")[0] + " - " + arg.event.end.toTimeString().split(" ")[0])
+          $('#c-date').html("เวลาจอง " + star_t.split(":")[0]+":"+star_t.split(":")[1] + " - " + en_d.split(":")[0]+":"+en_d.split(":")[1])
           $('#c-description').html(arg.event.extendedProps.description.replace(/\n/g, '<br>\n'))
           $('#c-reserver').text("Reserver : " + arg.event.extendedProps.reserverName)
 
