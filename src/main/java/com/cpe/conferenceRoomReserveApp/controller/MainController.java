@@ -72,7 +72,7 @@ public class MainController {
     }
 
     @RequestMapping("/home")
-    public String login(Model model) {
+    public String getHome(Model model) {
 
         Authentication loggedInUser = SecurityContextHolder.getContext().getAuthentication();
         List<Branch> branches = branchService.getAllBranch();
@@ -107,7 +107,7 @@ public class MainController {
     }
 
     @RequestMapping("/room/{rid}")
-    public String getBranch(Model model, @PathVariable("rid") Long roomId) {
+    public String getRoom(Model model, @PathVariable("rid") Long roomId) {
 
         Authentication loggedInUser = SecurityContextHolder.getContext().getAuthentication();
 
@@ -145,7 +145,7 @@ public class MainController {
     }
 
     @RequestMapping(value = "reserveroom", method = RequestMethod.POST)
-    public String postMethodName(Model model, IReservationData iReservationData) {
+    public String reserveRoom(Model model, IReservationData iReservationData) {
         int TIME_INDEX = 3;
         int YEAR_INDEX = 2;
         int DAY_INDEX = 1;
