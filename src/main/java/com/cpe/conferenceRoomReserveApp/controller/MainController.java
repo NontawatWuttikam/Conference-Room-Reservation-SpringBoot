@@ -17,7 +17,6 @@ import com.cpe.conferenceRoomReserveApp.entity.Room;
 import com.cpe.conferenceRoomReserveApp.entity.User;
 import com.cpe.conferenceRoomReserveApp.iclass.IAddRoom;
 import com.cpe.conferenceRoomReserveApp.iclass.IReservationData;
-import com.cpe.conferenceRoomReserveApp.repository.RoomRepository;
 import com.cpe.conferenceRoomReserveApp.service.BranchService;
 import com.cpe.conferenceRoomReserveApp.service.BuildingService;
 import com.cpe.conferenceRoomReserveApp.service.ReservationService;
@@ -25,13 +24,10 @@ import com.cpe.conferenceRoomReserveApp.service.RoomService;
 import com.cpe.conferenceRoomReserveApp.service.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
@@ -40,7 +36,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 
 class C {
     public static int FLOAT_FLOOR = -1;

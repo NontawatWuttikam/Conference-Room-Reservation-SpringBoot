@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.cpe.conferenceRoomReserveApp.entity.Building;
 
-import org.springframework.boot.autoconfigure.info.ProjectInfoProperties.Build;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
