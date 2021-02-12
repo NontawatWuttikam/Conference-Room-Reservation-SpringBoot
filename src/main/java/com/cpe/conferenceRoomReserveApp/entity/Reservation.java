@@ -87,16 +87,38 @@ public class Reservation {
         this.reserverID = reserverID;
     }
 
-    public Date getStartDateTime() {
-        return this.startDateTime;
+    public String getStartDateTime() {
+        //2564-01-04T09:00:31.000+07:00
+        String hour = (String.valueOf(this.startDateTime.getHours()).length() == 1)? "0" + String.valueOf(this.startDateTime.getHours()) : String.valueOf(this.startDateTime.getHours());
+        String min = (String.valueOf(this.startDateTime.getMinutes()).length() == 1)? "0" + String.valueOf(this.startDateTime.getMinutes()) : String.valueOf(this.startDateTime.getMinutes());
+        String sec = (String.valueOf(this.startDateTime.getSeconds()).length() == 1)? "0" + String.valueOf(this.startDateTime.getSeconds()) : String.valueOf(this.startDateTime.getSeconds());
+        String month_i = String.valueOf(this.startDateTime.getMonth() + 1);
+        String day_i = String.valueOf(this.startDateTime.getDate());
+        String year_i = String.valueOf(this.startDateTime.getYear());
+        String month = (month_i.length() == 1)? "0" + month_i : month_i;
+        String day = (day_i.length() == 1)? "0" + day_i : day_i;
+        String year = String.valueOf(Integer.parseInt(year_i) + 1900);
+
+        return year+"-"+month+"-"+day+"T"+hour+":"+min+":"+sec+".000+07:00";
     }
 
     public void setStartDateTime(Date startDateTime) {
         this.startDateTime = startDateTime;
     }
 
-    public Date getEndDateTime() {
-        return this.endDateTime;
+    public String getEndDateTime() {
+        //2564-01-04T09:00:31.000+07:00
+        String hour = (String.valueOf(this.endDateTime.getHours()).length() == 1)? "0" + String.valueOf(this.endDateTime.getHours()) : String.valueOf(this.endDateTime.getHours());
+        String min = (String.valueOf(this.endDateTime.getMinutes()).length() == 1)? "0" + String.valueOf(this.endDateTime.getMinutes()) : String.valueOf(this.endDateTime.getMinutes());
+        String sec = (String.valueOf(this.endDateTime.getSeconds()).length() == 1)? "0" + String.valueOf(this.endDateTime.getSeconds()) : String.valueOf(this.endDateTime.getSeconds());
+        String month_i = String.valueOf(this.endDateTime.getMonth() + 1);
+        String day_i = String.valueOf(this.endDateTime.getDate());
+        String year_i = String.valueOf(this.endDateTime.getYear());
+        String month = (month_i.length() == 1)? "0" + month_i : month_i;
+        String day = (day_i.length() == 1)? "0" + day_i : day_i;
+        String year = String.valueOf(Integer.parseInt(year_i) + 1900);
+
+        return year+"-"+month+"-"+day+"T"+hour+":"+min+":"+sec+".000+07:00";
     }
 
     public void setEndDateTime(Date endDateTime) {
