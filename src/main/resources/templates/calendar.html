@@ -22,11 +22,11 @@
     //   if (hr )
     // }
     for (var i = 0; i < datas.length; i++) {
-      console.log(datas)
+      // console.log((parseInt(datas[i].startDateTime.split("-")[0])-543)+'-'+(datas[i].startDateTime.split("-").slice(1).join('-')))
       events.push({
         title: datas[i].title,
-        start: datas[i].startDateTime,
-        end: datas[i].endDateTime,
+        start: (parseInt(datas[i].startDateTime.split("-")[0])-543)+'-'+(datas[i].startDateTime.split("-").slice(1).join('-')),
+        end: (parseInt(datas[i].endDateTime.split("-")[0])-543)+'-'+(datas[i].endDateTime.split("-").slice(1).join('-')),
         extendedProps: {
           description: datas[i].description,
           reserverName: datas[i].reserver.firstName + " " + datas[i].reserver.lastName,
