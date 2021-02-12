@@ -68,6 +68,7 @@ public class MainController {
     @PostMapping("/selectbranch")
     public ResponseEntity<List<Building>> selectBranchDropDown(Model model, String branchId) {
         System.out.print("test");
+        if (branchId.equals("")) return ResponseEntity.status(HttpStatus.OK).body(null);
         return ResponseEntity.status(HttpStatus.OK).body(buildingService.getByBranchID(Long.parseLong(branchId)));
     }
 
